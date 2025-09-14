@@ -16,9 +16,85 @@ import {
   FileText,
 } from "lucide-react";
 import { Link } from "react-router";
+import { useEffect, useRef, useState } from "react";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
+
+  const [typedText, setTypedText] = useState("");
+  const [typingDone, setTypingDone] = useState(false);
+  const fullQuote =
+    "“I felt stuck—too many choices, no clear direction. Synapse helped me test-drive product roles through real simulations. I discovered what I'm great at and built a portfolio I'm proud of. I went from confused to confident.”";
+
+  useEffect(() => {
+    let i = 0;
+    const id = setInterval(() => {
+      setTypedText(fullQuote.slice(0, i + 1));
+      i++;
+      if (i >= fullQuote.length) {
+        clearInterval(id);
+        setTypingDone(true);
+      }
+    }, 18);
+    return () => clearInterval(id);
+  }, []);
+
+  const triggerRipple = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const target = e.currentTarget as HTMLButtonElement;
+    const rect = target.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.position = "absolute";
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    ripple.style.borderRadius = "9999px";
+    ripple.style.background = "rgba(255,255,255,0.45)";
+    ripple.style.transform = "scale(0)";
+    ripple.style.opacity = "0.9";
+    ripple.style.pointerEvents = "none";
+    ripple.style.transition = "transform 600ms ease-out, opacity 600ms ease-out";
+    target.style.position = "relative";
+    target.style.overflow = "hidden";
+    target.appendChild(ripple);
+    requestAnimationFrame(() => {
+      ripple.style.transform = "scale(2.5)";
+      ripple.style.opacity = "0";
+    });
+    setTimeout(() => ripple.remove(), 650);
+  };
+
+  const triggerConfetti = (x: number, y: number) => {
+    const colors = ["#6366F1", "#A855F7", "#EC4899", "#22C55E", "#F59E0B"];
+    for (let i = 0; i < 16; i++) {
+      const dot = document.createElement("span");
+      dot.style.position = "fixed";
+      dot.style.left = `${x}px`;
+      dot.style.top = `${y}px`;
+      dot.style.width = dot.style.height = `${6 + Math.random() * 6}px`;
+      dot.style.borderRadius = "9999px";
+      dot.style.background = colors[i % colors.length];
+      dot.style.pointerEvents = "none";
+      dot.style.opacity = "0.9";
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 40 + Math.random() * 60;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      dot.style.transform = "translate(0,0)";
+      dot.style.transition = "transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease-out";
+      document.body.appendChild(dot);
+      requestAnimationFrame(() => {
+        dot.style.transform = `translate(${tx}px, ${ty}px)`;
+        dot.style.opacity = "0";
+      });
+      setTimeout(() => dot.remove(), 800);
+    }
+  };
+
+  const handleCTA = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    triggerRipple(e);
+    triggerConfetti(e.clientX, e.clientY);
+  };
 
   const scrollToHowItWorks = () => {
     const el = document.getElementById("how-it-works");
@@ -76,11 +152,24 @@ export default function Landing() {
               className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-4"
             >
               Your{" "}
-              <span className="text-[#4285F4]">Career</span>
+              <motion.span
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="text-[#4285F4]"
+              >
+                Career
+              </motion.span>
               {", "}
-              <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-[pulse_3s_ease-in-out_infinite]">
+              <motion.span
+                initial={{ opacity: 0.7 }}
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{ backgroundSize: "200% 200%" }}
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+              >
                 Simulated
-              </span>
+              </motion.span>
               .
             </motion.h1>
 
@@ -113,7 +202,8 @@ export default function Landing() {
                 <Button
                   asChild
                   size="lg"
-                  className="text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                  onClick={handleCTA}
+                  className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
                 >
                   <Link to="/dashboard">
                     {user?.onboardingCompleted ? "Dashboard" : "Complete Setup"}
@@ -125,7 +215,8 @@ export default function Landing() {
                   <Button
                     asChild
                     size="lg"
-                    className="text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                    onClick={handleCTA}
+                    className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
                   >
                     <Link to="/auth">
                       Get Started Free
@@ -265,9 +356,21 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 * i }}
-                className={`rounded-2xl border bg-gradient-to-br ${item.bg} p-6 hover:shadow-lg transition`}
+                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-sm hover:-translate-y-1.5 hover:shadow-xl hover:shadow-purple-500/10`}
               >
-                <div className="text-3xl">{item.emoji}</div>
+                <motion.div
+                  initial={{ scale: 0.95, opacity: 0.9 }}
+                  whileHover={
+                    item.emoji === "💡"
+                      ? { scale: 1.05, filter: "brightness(1.1)" }
+                      : item.emoji === "🎮"
+                      ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
+                      : { rotate: [0, -4, 4, 0], transition: { duration: 0.8 } }
+                  }
+                  className="text-3xl"
+                >
+                  {item.emoji}
+                </motion.div>
                 <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
                 <p className="text-muted-foreground mt-2">{item.desc}</p>
               </motion.div>
@@ -287,7 +390,15 @@ export default function Landing() {
           </div>
 
           <div className="relative">
-            <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200" />
+            {/* Animated vertical line */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ transformOrigin: "top" }}
+              className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200"
+            />
             <ol className="space-y-8 md:space-y-10">
               {[
                 { label: "Onboarding", desc: "Connect LinkedIn, upload your resume, record a short intro." },
@@ -317,20 +428,52 @@ export default function Landing() {
       <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="order-2 lg:order-1">
-            <h3 className="text-3xl font-bold tracking-tight">Priya’s Story</h3>
+            <h3 className="text-3xl font-bold tracking-tight">Priya's Story</h3>
             <p className="text-muted-foreground mt-4 text-lg">
-              “I felt stuck—too many choices, no clear direction. Synapse helped me test-drive
-              product roles through real simulations. I discovered what I’m great at and built a
-              portfolio I’m proud of. I went from confused to confident.”
+              {typedText}
             </p>
+            {typingDone && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-3 text-sm"
+              >
+                <span>From </span>
+                <span className="text-rose-600 font-semibold">confused</span>
+                <span> to </span>
+                <span className="text-emerald-600 font-semibold">confident</span>
+                <span> — and a standout </span>
+                <span className="text-indigo-600 font-semibold">portfolio</span>
+                <span>.</span>
+              </motion.div>
+            )}
             <div className="mt-6">
               <Button asChild className="px-6">
                 <Link to="/auth">Try Your Own Story</Link>
               </Button>
             </div>
           </div>
-          <div className="order-1 lg:order-2">
-            <div className="relative rounded-3xl border bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 md:p-8 overflow-hidden">
+          <div
+            className="order-1 lg:order-2"
+            onMouseMove={(e) => {
+              const el = e.currentTarget;
+              const rect = el.getBoundingClientRect();
+              const px = (e.clientX - rect.left) / rect.width - 0.5;
+              const py = (e.clientY - rect.top) / rect.height - 0.5;
+              const inner = el.querySelector("[data-parallax]") as HTMLElement | null;
+              if (inner) {
+                inner.style.transform = `rotateX(${py * -4}deg) rotateY(${px * 4}deg) translateZ(0)`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              const inner = (e.currentTarget.querySelector("[data-parallax]") as HTMLElement | null);
+              if (inner) inner.style.transform = "";
+            }}
+          >
+            <div
+              data-parallax
+              className="relative rounded-3xl border bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
+            >
               <div className="absolute -top-12 -left-8 h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-300/30 to-purple-300/30 blur-2xl" />
               <div className="absolute -bottom-10 -right-8 h-44 w-44 rounded-full bg-gradient-to-tr from-pink-300/30 to-amber-300/30 blur-2xl" />
               <div className="relative aspect-[4/3] rounded-2xl bg-white ring-1 ring-black/5 grid place-items-center">
@@ -354,11 +497,24 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-8">
-        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
+      <footer className="mt-8 relative overflow-hidden">
+        <motion.div
+          aria-hidden
+          initial={{ backgroundPosition: "0% 50%" }}
+          animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{ backgroundSize: "300% 300%" }}
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90"
+        />
+        <div className="text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div className="text-center">
-              <h4 className="text-2xl font-semibold">Don’t just plan your career. Simulate it.</h4>
+              <h4 className="text-2xl font-semibold">
+                Don't just plan your career.{" "}
+                <span className="drop-shadow-[0_0_10px_rgba(236,72,153,0.6)] animate-pulse">
+                  Simulate it.
+                </span>
+              </h4>
               <div className="mt-6 flex flex-wrap gap-3 justify-center">
                 {[
                   { label: "Privacy", href: "#" },
@@ -369,7 +525,7 @@ export default function Landing() {
                   <a
                     key={i}
                     href={link.href}
-                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition text-sm"
+                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition text-sm transform will-change-transform hover:rotate-2 hover:scale-105"
                   >
                     {link.label}
                   </a>
