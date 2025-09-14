@@ -1,14 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
-import { Brain, Menu, User, X } from "lucide-react";
-import { useState } from "react";
+import { Brain, Menu, User, X, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 export function Navbar() {
   const { isAuthenticated, user, signOut } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    const prefersDark =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const initial = stored === "dark" || (!stored && prefersDark) ? "dark" : "light";
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", initial === "dark");
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.classList.toggle("dark", next === "dark");
+    localStorage.setItem("theme", next);
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -19,8 +39,17 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b"
+      className="fixed top-0 left-0 right-0 z-50 relative border-b backdrop-blur-xl bg-white/60 dark:bg-neutral-900/40 ring-1 ring-black/5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
     >
+      {/* Animated gradient glass layer */}
+      <motion.div
+        aria-hidden
+        initial={{ backgroundPosition: "0% 50%" }}
+        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        style={{ backgroundSize: "200% 200%" }}
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -39,6 +68,22 @@ export function Navbar() {
                 <Link to="/portfolio" className="text-sm font-medium hover:text-primary transition-colors">
                   Portfolio
                 </Link>
+
+                {/* Theme toggle (desktop) */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4 text-yellow-400" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-indigo-600" />
+                  )}
+                </Button>
+
                 <div className="flex items-center space-x-4">
                   <span className="text-sm text-muted-foreground">
                     Hey {user?.name || "there"}!
@@ -50,6 +95,21 @@ export function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-4">
+                {/* Theme toggle (desktop) */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4 text-yellow-400" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-indigo-600" />
+                  )}
+                </Button>
+
                 <Button variant="ghost" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
@@ -60,12 +120,29 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile controls */}
+          <div className="md:hidden flex items-center gap-1">
+            {/* Theme toggle (mobile) */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+              title="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4 text-yellow-400" />
+              ) : (
+                <Moon className="h-4 w-4 text-indigo-600" />
+              )}
+            </Button>
+
+            {/* Mobile menu button */}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="h-9 w-9"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
