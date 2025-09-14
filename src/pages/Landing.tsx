@@ -21,6 +21,12 @@ import { useEffect, useRef, useState } from "react";
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
 
+  // Custom cursor state
+  const [showCursor, setShowCursor] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isDown, setIsDown] = useState(false);
+  const [overInteractive, setOverInteractive] = useState(false);
+
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
   const fullQuote =
@@ -37,6 +43,46 @@ export default function Landing() {
       }
     }, 18);
     return () => clearInterval(id);
+  }, []);
+
+  // Initialize custom cursor only on fine pointers (desktop/laptop)
+  useEffect(() => {
+    const isFinePointer =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(pointer: fine)").matches;
+
+    if (!isFinePointer) {
+      setShowCursor(false);
+      return;
+    }
+
+    setShowCursor(true);
+
+    const handleMove = (e: MouseEvent) => {
+      setCursorPos({ x: e.clientX, y: e.clientY });
+    };
+    const handleDown = () => setIsDown(true);
+    const handleUp = () => setIsDown(false);
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const interactive = target?.closest?.(
+        "a,button,[role='button'],input,textarea,select,label"
+      );
+      setOverInteractive(!!interactive);
+    };
+
+    document.addEventListener("mousemove", handleMove);
+    document.addEventListener("mousedown", handleDown);
+    document.addEventListener("mouseup", handleUp);
+    document.addEventListener("mouseover", handleOver);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mousedown", handleDown);
+      document.removeEventListener("mouseup", handleUp);
+      document.removeEventListener("mouseover", handleOver);
+    };
   }, []);
 
   const triggerRipple = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -101,8 +147,12 @@ export default function Landing() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Sizes for cursor elements
+  const dotSize = isDown ? 10 : 8;
+  const ringSize = overInteractive ? 48 : isDown ? 36 : 32;
+
   return (
-    <div className="min-h-screen relative overflow-x-hidden">
+    <div className={`min-h-screen relative overflow-x-hidden ${showCursor ? "cursor-none" : ""}`}>
       {/* Subtle page background gradient */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f5f9ff] via-white to-white" />
@@ -563,6 +613,36 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+
+      {/* Custom Cursor Overlay */}
+      {showCursor && (
+        <div className="pointer-events-none fixed inset-0 z-50">
+          {/* Gradient dot */}
+          <motion.div
+            aria-hidden
+            className="fixed top-0 left-0 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_20px_rgba(99,102,241,0.35)]"
+            style={{ width: dotSize, height: dotSize }}
+            animate={{
+              x: cursorPos.x - dotSize / 2,
+              y: cursorPos.y - dotSize / 2,
+              scale: overInteractive ? 1.2 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.4 }}
+          />
+          {/* Glassy ring */}
+          <motion.div
+            aria-hidden
+            className="fixed top-0 left-0 rounded-full border border-indigo-400/50 shadow-[0_0_30px_rgba(79,70,229,0.25)] bg-transparent"
+            style={{ width: ringSize, height: ringSize }}
+            animate={{
+              x: cursorPos.x - ringSize / 2,
+              y: cursorPos.y - ringSize / 2,
+              scale: overInteractive ? 1.05 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 220, damping: 24, mass: 0.7 }}
+          />
+        </div>
+      )}
     </div>
   );
 }
