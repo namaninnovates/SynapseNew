@@ -2,63 +2,119 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
-import { ArrowRight, Brain, Briefcase, Target, TrendingUp, Users, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Brain,
+  Briefcase,
+  Target,
+  TrendingUp,
+  Users,
+  Zap,
+  Rocket,
+  Laptop,
+  PenTool,
+  FileText,
+} from "lucide-react";
 import { Link } from "react-router";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
 
+  const scrollToHowItWorks = () => {
+    const el = document.getElementById("how-it-works");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* Subtle page background gradient */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f5f9ff] via-white to-white" />
+        {/* Abstract glow shapes */}
+        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 blur-3xl" />
+        <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-gradient-to-br from-cyan-300/20 via-indigo-300/20 to-purple-300/20 blur-3xl" />
+      </div>
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <div className="flex justify-center mb-8">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="p-4 bg-primary/10 rounded-2xl"
-              >
-                <Brain className="h-16 w-16 text-primary" />
-              </motion.div>
-            </div>
-            
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-5xl md:text-7xl font-bold tracking-tight mb-6"
-            >
-              Your Career,{" "}
-              <span className="text-primary">Simulated</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto"
-            >
-              Experience your future career through AI-powered simulations. 
-              Discover your potential, test-drive jobs, and build a portfolio 
-              that showcases your capabilities.
-            </motion.p>
-            
+      <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* background wave */}
+        <svg
+          className="absolute -z-10 -top-10 right-0 h-[420px] w-[900px] opacity-40 text-indigo-50"
+          viewBox="0 0 900 600"
+          fill="none"
+        >
+          <path
+            d="M0,300 C150,200 300,400 450,300 C600,200 750,300 900,200 L900,600 L0,600 Z"
+            fill="currentColor"
+          />
+        </svg>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* Left: Text */}
+          <div>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              transition={{ duration: 0.6 }}
+              className="mb-6"
+            >
+              {/* Animated emblem */}
+              <motion.div
+                initial={{ scale: 0.9, rotate: -4, opacity: 0 }}
+                animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 160, damping: 14 }}
+                className="inline-flex items-center justify-center p-4 rounded-2xl bg-white/80 shadow-sm ring-1 ring-black/5 backdrop-blur-sm"
+              >
+                <Brain className="h-12 w-12 text-[#4285F4]" />
+              </motion.div>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-4"
+            >
+              Your{" "}
+              <span className="text-[#4285F4]">Career</span>
+              {", "}
+              <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-[pulse_3s_ease-in-out_infinite]">
+                Simulated
+              </span>
+              .
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-3"
+            >
+              From lost to confident — test-drive your dream career with AI.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 }}
+              className="text-base md:text-lg text-muted-foreground max-w-2xl mb-8"
+            >
+              Experience your future career through hands-on simulations. Discover your
+              strengths, explore trajectories, and build a portfolio that proves it.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.24 }}
+              className="flex flex-col sm:flex-row gap-4"
             >
               {isAuthenticated ? (
-                <Button asChild size="lg" className="text-lg px-8 py-6">
+                <Button
+                  asChild
+                  size="lg"
+                  className="text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                >
                   <Link to="/dashboard">
                     {user?.onboardingCompleted ? "Dashboard" : "Complete Setup"}
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -66,139 +122,273 @@ export default function Landing() {
                 </Button>
               ) : (
                 <>
-                  <Button asChild size="lg" className="text-lg px-8 py-6">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                  >
                     <Link to="/auth">
                       Get Started Free
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
-                    <Link to="/auth">
-                      Sign In
-                    </Link>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={scrollToHowItWorks}
+                    className="text-base md:text-lg px-8 py-6 hover:bg-indigo-50 hover:text-indigo-700"
+                  >
+                    See How It Works
                   </Button>
                 </>
               )}
             </motion.div>
-          </motion.div>
+          </div>
+
+          {/* Right: Hero Visual */}
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-3xl border p-6 md:p-8 shadow-sm"
+            >
+              {/* Gradient orb */}
+              <div className="absolute -top-6 -left-6 h-28 w-28 rounded-full bg-gradient-to-br from-indigo-400/30 to-purple-400/30 blur-2xl" />
+              <div className="absolute -bottom-10 -right-6 h-32 w-32 rounded-full bg-gradient-to-br from-pink-400/20 to-amber-300/20 blur-2xl" />
+
+              {/* Central abstract panel */}
+              <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white ring-1 ring-black/5 p-6 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 via-purple-100 to-pink-100 opacity-50" />
+                <div className="relative grid place-items-center">
+                  <motion.div
+                    initial={{ scale: 0.95, rotate: 0 }}
+                    animate={{ scale: 1, rotate: 0.5 }}
+                    transition={{ repeat: Infinity, repeatType: "reverse", duration: 6, ease: "easeInOut" }}
+                    className="h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-60"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="relative z-10 text-center"
+                  >
+                    <div className="mx-auto w-16 h-16 rounded-2xl bg-white/60 backdrop-blur ring-1 ring-black/5 grid place-items-center">
+                      <Rocket className="h-8 w-8 text-indigo-600" />
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      Explore branching career paths
+                    </p>
+                  </motion.div>
+                </div>
+
+                {/* Floating icons */}
+                <motion.div
+                  className="absolute left-6 top-6"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                    <Laptop className="h-5 w-5 text-purple-600" />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute right-8 top-10"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                    <PenTool className="h-5 w-5 text-pink-600" />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute left-10 bottom-8"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                    <Briefcase className="h-5 w-5 text-indigo-600" />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute right-12 bottom-6"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                    <FileText className="h-5 w-5 text-amber-600" />
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      {/* Why Synapse */}
+      <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold tracking-tight mb-4">
-              How Synapse Works
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Our AI-powered platform analyzes your skills and creates personalized 
-              career simulations to help you explore your potential.
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Why Synapse?</h2>
+            <p className="text-muted-foreground text-lg mt-3">
+              Three simple reasons to start today
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
               {
-                icon: Brain,
-                title: "Skills Analysis",
-                description: "AI analyzes your resume, LinkedIn, and video intro to map your unique skill profile with precision.",
-                delay: 0.1
+                title: "Discover",
+                emoji: "💡",
+                desc: "Uncover your strengths with AI-powered skill analysis.",
+                bg: "from-sky-50 to-indigo-50",
               },
               {
-                icon: Target,
-                title: "Career Trajectories",
-                description: "Discover personalized career paths based on your skills, interests, and market trends.",
-                delay: 0.2
+                title: "Simulate",
+                emoji: "🎮",
+                desc: "Test-drive careers through micro-internships that feel real.",
+                bg: "from-violet-50 to-fuchsia-50",
               },
               {
-                icon: Briefcase,
-                title: "Micro-Internships",
-                description: "Test-drive careers through realistic project simulations with AI mentorship and feedback.",
-                delay: 0.3
+                title: "Build Portfolio",
+                emoji: "📂",
+                desc: "Showcase your work and unlock opportunities with confidence.",
+                bg: "from-emerald-50 to-teal-50",
               },
-              {
-                icon: Users,
-                title: "AI Mentorship",
-                description: "Get personalized guidance from AI mentors with industry-specific expertise and experience.",
-                delay: 0.4
-              },
-              {
-                icon: TrendingUp,
-                title: "Portfolio Building",
-                description: "Build a compelling portfolio showcasing your simulated work experience and capabilities.",
-                delay: 0.5
-              },
-              {
-                icon: Zap,
-                title: "Real-time Feedback",
-                description: "Receive instant, actionable feedback to improve your skills and career readiness.",
-                delay: 0.6
-              }
-            ].map((feature, index) => (
+            ].map((item, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: feature.delay }}
+                transition={{ delay: 0.05 * i }}
+                className={`rounded-2xl border bg-gradient-to-br ${item.bg} p-6 hover:shadow-lg transition`}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-                  <CardContent className="p-8">
-                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-6">
-                      <feature.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                <div className="text-3xl">{item.emoji}</div>
+                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                <p className="text-muted-foreground mt-2">{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold tracking-tight mb-6">
-              Ready to Simulate Your Future?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-12">
-              Join thousands of professionals discovering their career potential 
-              through AI-powered simulations.
+      {/* How It Works */}
+      <section id="how-it-works" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">How It Works</h2>
+            <p className="text-muted-foreground text-lg mt-3">
+              A simple path from curious to confident
             </p>
-            
-            {!isAuthenticated && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
-                <Button asChild size="lg" className="text-lg px-12 py-6">
-                  <Link to="/auth">
-                    Start Your Simulation
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </motion.div>
-            )}
-          </motion.div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200" />
+            <ol className="space-y-8 md:space-y-10">
+              {[
+                { label: "Onboarding", desc: "Connect LinkedIn, upload your resume, record a short intro." },
+                { label: "Skill Graph", desc: "See your AI-generated strengths map, clearly visualized." },
+                { label: "Career Path", desc: "Explore trajectories with match scores and growth trends." },
+                { label: "Micro-Internship", desc: "Work on realistic projects with guidance and feedback." },
+                { label: "Portfolio", desc: "Publish your wins and show your simulated experience." },
+              ].map((step, i) => (
+                <li key={i} className="relative pl-16 md:pl-20">
+                  <div className="absolute left-0 md:left-1">
+                    <div className="h-12 w-12 md:h-14 md:w-14 grid place-items-center rounded-full bg-white shadow-sm ring-1 ring-black/5">
+                      <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
+                    </div>
+                  </div>
+                  <div className="rounded-xl bg-white p-5 ring-1 ring-black/5 shadow-sm">
+                    <h4 className="text-lg font-semibold">{step.label}</h4>
+                    <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
+
+      {/* Student Story */}
+      <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="order-2 lg:order-1">
+            <h3 className="text-3xl font-bold tracking-tight">Priya’s Story</h3>
+            <p className="text-muted-foreground mt-4 text-lg">
+              “I felt stuck—too many choices, no clear direction. Synapse helped me test-drive
+              product roles through real simulations. I discovered what I’m great at and built a
+              portfolio I’m proud of. I went from confused to confident.”
+            </p>
+            <div className="mt-6">
+              <Button asChild className="px-6">
+                <Link to="/auth">Try Your Own Story</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="order-1 lg:order-2">
+            <div className="relative rounded-3xl border bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 md:p-8 overflow-hidden">
+              <div className="absolute -top-12 -left-8 h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-300/30 to-purple-300/30 blur-2xl" />
+              <div className="absolute -bottom-10 -right-8 h-44 w-44 rounded-full bg-gradient-to-tr from-pink-300/30 to-amber-300/30 blur-2xl" />
+              <div className="relative aspect-[4/3] rounded-2xl bg-white ring-1 ring-black/5 grid place-items-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-center px-6"
+                >
+                  <div className="mx-auto w-20 h-20 rounded-2xl bg-indigo-50 grid place-items-center">
+                    <Users className="h-10 w-10 text-indigo-600" />
+                  </div>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    A young professional at a crossroads, exploring branching paths with confidence.
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="mt-8">
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="text-center">
+              <h4 className="text-2xl font-semibold">Don’t just plan your career. Simulate it.</h4>
+              <div className="mt-6 flex flex-wrap gap-3 justify-center">
+                {[
+                  { label: "Privacy", href: "#" },
+                  { label: "Terms", href: "#" },
+                  { label: "Contact", href: "#" },
+                  { label: "Twitter/X", href: "#" },
+                ].map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.href}
+                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition text-sm"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+              {!isAuthenticated && (
+                <div className="mt-8">
+                  <Button asChild size="lg" className="bg-white text-indigo-700 hover:bg-white/90">
+                    <Link to="/auth">
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
