@@ -39,7 +39,7 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 relative border-b border-white/20 dark:border-white/10 backdrop-blur-xl backdrop-saturate-150 bg-transparent supports-[backdrop-filter]:bg-transparent shadow-none"
+      className="sticky top-0 z-50 border-b border-white/20 dark:border-white/10 backdrop-blur-xl backdrop-saturate-150 bg-transparent supports-[backdrop-filter]:bg-transparent shadow-none"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16 md:grid md:grid-cols-[auto_1fr_auto]">
