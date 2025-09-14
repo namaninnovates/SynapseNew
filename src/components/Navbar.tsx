@@ -51,12 +51,50 @@ export function Navbar() {
         className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30"
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex items-center h-16 md:grid md:grid-cols-[auto_1fr_auto]">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Brain className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold tracking-tight">Synapse</span>
           </Link>
+
+          {/* Center scrollable tabs (desktop) */}
+          <div className="hidden md:flex justify-center">
+            <div className="overflow-x-auto no-scrollbar max-w-3xl">
+              <div className="flex gap-2 py-2 px-1">
+                <a
+                  href="/#top"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Home
+                </a>
+                <a
+                  href="/#why-synapse"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Why Synapse
+                </a>
+                <a
+                  href="/#how-it-works"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  How It Works
+                </a>
+                <a
+                  href="/#story"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Story
+                </a>
+                <a
+                  href="/portfolio"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Portfolio
+                </a>
+              </div>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -239,46 +277,6 @@ export function Navbar() {
             </div>
           </motion.div>
         )}
-
-        {/* Center scrollable tabs (desktop) */}
-        <div className="hidden md:block">
-          <div className="flex justify-center">
-            <div className="overflow-x-auto no-scrollbar max-w-3xl">
-              <div className="flex gap-2 py-2 px-1">
-                <a
-                  href="/#top"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
-                >
-                  Home
-                </a>
-                <a
-                  href="/#why-synapse"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
-                >
-                  Why Synapse
-                </a>
-                <a
-                  href="/#how-it-works"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
-                >
-                  How It Works
-                </a>
-                <a
-                  href="/#story"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
-                >
-                  Story
-                </a>
-                <a
-                  href="/portfolio"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
-                >
-                  Portfolio
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </motion.nav>
   );
