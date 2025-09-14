@@ -39,17 +39,8 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 relative border-b backdrop-blur-xl backdrop-saturate-150 bg-white/55 dark:bg-neutral-900/30 ring-1 ring-black/5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+      className="fixed top-0 left-0 right-0 z-50 relative border-b border-white/20 dark:border-white/10 backdrop-blur-xl backdrop-saturate-150 bg-transparent supports-[backdrop-filter]:bg-transparent shadow-none"
     >
-      {/* Animated gradient glass layer */}
-      <motion.div
-        aria-hidden
-        initial={{ backgroundPosition: "0% 50%" }}
-        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        style={{ backgroundSize: "200% 200%" }}
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30"
-      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16 md:grid md:grid-cols-[auto_1fr_auto]">
           {/* Logo */}
