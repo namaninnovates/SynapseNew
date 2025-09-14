@@ -109,10 +109,26 @@ export default function Landing() {
         {/* Abstract glow shapes */}
         <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 blur-3xl" />
         <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-gradient-to-br from-cyan-300/20 via-indigo-300/20 to-purple-300/20 blur-3xl" />
+        {/* Dynamic gradient blobs for liveliness */}
+        <motion.div
+          aria-hidden
+          initial={{ x: -60, y: 0, opacity: 0.35 }}
+          animate={{ x: [ -60, 40, -60 ], y: [0, -20, 0], opacity: [0.35, 0.5, 0.35] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-1/4 top-10 h-64 w-64 rounded-full bg-gradient-to-tr from-indigo-300/30 via-purple-300/30 to-pink-300/30 blur-3xl"
+        />
+        <motion.div
+          aria-hidden
+          initial={{ x: 40, y: 20, opacity: 0.35 }}
+          animate={{ x: [ 40, -50, 40 ], y: [20, 0, 20], opacity: [0.35, 0.5, 0.35] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute right-1/4 bottom-24 h-72 w-72 rounded-full bg-gradient-to-tr from-pink-300/25 via-amber-300/25 to-indigo-300/25 blur-3xl"
+        />
       </div>
 
       {/* Hero Section */}
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <span id="top" className="absolute -top-24" />
         {/* background wave */}
         <svg
           className="absolute -z-10 -top-10 right-0 h-[420px] w-[900px] opacity-40 text-indigo-50"
@@ -321,6 +337,7 @@ export default function Landing() {
 
       {/* Why Synapse */}
       <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <span id="why-synapse" className="block -mt-24 pt-24" />
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Why Synapse?</h2>
@@ -426,6 +443,7 @@ export default function Landing() {
 
       {/* Student Story */}
       <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <span id="story" className="block -mt-24 pt-24" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="order-2 lg:order-1">
             <h3 className="text-3xl font-bold tracking-tight">Priya's Story</h3>

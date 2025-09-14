@@ -69,6 +69,16 @@ export function Navbar() {
                   Portfolio
                 </Link>
 
+                {/* Theme toggle (desktop) - logo */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  <img src="/logo.svg" alt="Toggle theme" className="h-4 w-4" />
+                </Button>
                 {/* Theme toggle (desktop) */}
                 <Button
                   variant="ghost"
@@ -95,6 +105,16 @@ export function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-4">
+                {/* Theme toggle (desktop) - logo */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  <img src="/logo.svg" alt="Toggle theme" className="h-4 w-4" />
+                </Button>
                 {/* Theme toggle (desktop) */}
                 <Button
                   variant="ghost"
@@ -122,6 +142,16 @@ export function Navbar() {
 
           {/* Mobile controls */}
           <div className="md:hidden flex items-center gap-1">
+            {/* Theme toggle (mobile) - logo */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
+              title="Toggle theme"
+            >
+              <img src="/logo.svg" alt="Toggle theme" className="h-4 w-4" />
+            </Button>
             {/* Theme toggle (mobile) */}
             <Button
               variant="ghost"
@@ -209,6 +239,46 @@ export function Navbar() {
             </div>
           </motion.div>
         )}
+
+        {/* Center scrollable tabs (desktop) */}
+        <div className="hidden md:block">
+          <div className="flex justify-center">
+            <div className="overflow-x-auto no-scrollbar max-w-3xl">
+              <div className="flex gap-2 py-2 px-1">
+                <a
+                  href="/#top"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Home
+                </a>
+                <a
+                  href="/#why-synapse"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Why Synapse
+                </a>
+                <a
+                  href="/#how-it-works"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  How It Works
+                </a>
+                <a
+                  href="/#story"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Story
+                </a>
+                <a
+                  href="/portfolio"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                >
+                  Portfolio
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </motion.nav>
   );
