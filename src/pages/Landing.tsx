@@ -605,7 +605,7 @@ export default function Landing() {
           animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           style={{ backgroundSize: "300% 300%" }}
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-90"
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-80"
         />
         <div className="text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -642,6 +642,7 @@ export default function Landing() {
                   </Button>
                 </div>
               )}
+              <div className="mt-4 text-sm text-white/90">Created by Team DataVista</div>
             </div>
           </div>
         </div>
