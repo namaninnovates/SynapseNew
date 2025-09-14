@@ -389,13 +389,20 @@ export default function Landing() {
       <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <span id="why-synapse" className="block -mt-24 pt-24" />
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          {/* Scroll-reveal header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Why Synapse?</h2>
             <p className="text-muted-foreground text-lg mt-3">
               Three simple reasons to start today
             </p>
-          </div>
-
+          </motion.div>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
               {
@@ -449,13 +456,20 @@ export default function Landing() {
       {/* How It Works */}
       <section id="how-it-works" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          {/* Scroll-reveal header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">How It Works</h2>
             <p className="text-muted-foreground text-lg mt-3">
               A simple path from curious to confident
             </p>
-          </div>
-
+          </motion.div>
+ 
           <div className="relative">
             {/* Animated vertical line */}
             <motion.div
@@ -474,7 +488,14 @@ export default function Landing() {
                 { label: "Micro-Internship", desc: "Work on realistic projects with guidance and feedback." },
                 { label: "Portfolio", desc: "Publish your wins and show your simulated experience." },
               ].map((step, i) => (
-                <li key={i} className="relative pl-16 md:pl-20">
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 * i }}
+                  className="relative pl-16 md:pl-20"
+                >
                   <div className="absolute left-0 md:left-1">
                     <div className="h-12 w-12 md:h-14 md:w-14 grid place-items-center rounded-full bg-white shadow-sm ring-1 ring-black/5">
                       <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
@@ -484,7 +505,7 @@ export default function Landing() {
                     <h4 className="text-lg font-semibold">{step.label}</h4>
                     <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
                   </div>
-                </li>
+                </motion.li>
               ))}
             </ol>
           </div>
@@ -495,7 +516,14 @@ export default function Landing() {
       <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <span id="story" className="block -mt-24 pt-24" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="order-2 lg:order-1">
+          {/* Left column reveal */}
+          <motion.div
+            className="order-2 lg:order-1"
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <h3 className="text-3xl font-bold tracking-tight">Priya's Story</h3>
             <p className="text-muted-foreground mt-4 text-lg">
               {typedText}
@@ -520,8 +548,9 @@ export default function Landing() {
                 <Link to="/auth">Try Your Own Story</Link>
               </Button>
             </div>
-          </div>
-          <div
+          </motion.div>
+          {/* Right column reveal */}
+          <motion.div
             className="order-1 lg:order-2"
             onMouseMove={(e) => {
               const el = e.currentTarget;
@@ -537,6 +566,10 @@ export default function Landing() {
               const inner = (e.currentTarget.querySelector("[data-parallax]") as HTMLElement | null);
               if (inner) inner.style.transform = "";
             }}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <div
               data-parallax
@@ -560,7 +593,7 @@ export default function Landing() {
                 </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
