@@ -27,6 +27,9 @@ export default function Landing() {
   const [isDown, setIsDown] = useState(false);
   const [overInteractive, setOverInteractive] = useState(false);
 
+  // Add RGB trail state
+  const [trail, setTrail] = useState<Array<{ x: number; y: number; t: number }>>([]);
+
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
   const fullQuote =
@@ -61,6 +64,12 @@ export default function Landing() {
 
     const handleMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
+      // Update trail with latest position
+      setTrail((prev) => {
+        const next = [...prev, { x: e.clientX, y: e.clientY, t: Date.now() }];
+        // Keep last 24 points for a smooth trail
+        return next.slice(-24);
+      });
     };
     const handleDown = () => setIsDown(true);
     const handleUp = () => setIsDown(false);
@@ -651,6 +660,38 @@ export default function Landing() {
       {/* Custom Cursor Overlay */}
       {showCursor && (
         <div className="pointer-events-none fixed inset-0 z-50">
+          {/* RGB Trail */}
+          {trail.map((p, i) => {
+            const factor = (i + 1) / (trail.length || 1); // 0..1
+            const size = 10 + factor * 12; // grow slightly for newer points
+            const hue = Math.round(factor * 360); // hue across trail
+            const opacity = 0.16 + factor * 0.24; // newer points brighter
+            return (
+              <motion.div
+                key={`${p.t}-${i}`}
+                aria-hidden
+                className="fixed top-0 left-0 rounded-full blur-[2px] mix-blend-screen"
+                style={{
+                  width: size,
+                  height: size,
+                  background: `hsl(${hue} 90% 60%)`,
+                }}
+                animate={{
+                  x: p.x - size / 2,
+                  y: p.y - size / 2,
+                  opacity,
+                  scale: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 320,
+                  damping: 28,
+                  mass: 0.4,
+                }}
+              />
+            );
+          })}
+
           {/* Gradient dot */}
           <motion.div
             aria-hidden
