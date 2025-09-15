@@ -153,21 +153,19 @@ export default function Landing() {
                 transition={{ duration: 0.6 }}
                 className="relative rounded-3xl border dark:border-white/10 p-6 md:p-8 shadow-sm"
               >
-                <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 p-6 grid place-items-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="relative z-10 text-center"
-                  >
-                    <div className="mx-auto w-16 h-16 rounded-2xl bg-white/60 dark:bg-white/10 backdrop-blur ring-1 ring-black/5 grid place-items-center">
-                      <Rocket className="h-8 w-8 text-primary" />
-                    </div>
-                    <p className="mt-3 text-sm text-muted-foreground">
-                      Explore branching career paths
-                    </p>
-                  </motion.div>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-center"
+                >
+                  <div className="mx-auto w-16 h-16 rounded-2xl bg-white/60 dark:bg-white/10 backdrop-blur ring-1 ring-black/5 grid place-items-center">
+                    <Rocket className="h-8 w-8 text-primary" />
+                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Explore branching career paths
+                  </p>
+                </motion.div>
               </motion.div>
             </div>
           </div>
