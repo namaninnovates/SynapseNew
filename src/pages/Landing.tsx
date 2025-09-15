@@ -73,11 +73,10 @@ export default function Landing() {
                 </motion.span>
                 {", "}
                 <motion.span
-                  initial={{ opacity: 0.7 }}
-                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ backgroundSize: "200% 200%" }}
-                  className="text-white"
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{}}
+                  className="text-white opacity-100"
                 >
                   Simulated
                 </motion.span>
