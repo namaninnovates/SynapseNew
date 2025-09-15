@@ -605,7 +605,7 @@ export default function Landing() {
                     { label: "Privacy", href: "#" },
                     { label: "Terms", href: "#" },
                     { label: "Contact", href: "#" },
-                    { label: "Twitter/X", href: "#" },
+                    { label: "GitHub", href: "https://github.com/namaninnovates" },
                   ].map((link, i) => (
                     <a
                       key={i}
@@ -626,7 +626,7 @@ export default function Landing() {
                     </Button>
                   </div>
                 )}
-                <div className="mt-4 text-sm text-muted-foreground">Created by Team DataVista</div>
+                <div className="mt-4 text-sm text-muted-foreground">Created by namaninnovates ❤️</div>
               </div>
             </div>
           </div>
