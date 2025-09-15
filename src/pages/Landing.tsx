@@ -5,19 +5,11 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   Brain,
-  Briefcase,
-  Target,
-  TrendingUp,
-  Users,
-  Zap,
   Rocket,
-  Laptop,
-  PenTool,
-  FileText,
+  Users,
 } from "lucide-react";
 import { Link } from "react-router";
-import { useEffect, useRef, useState } from "react";
-import { Prism } from "@/components/ui/prism";
+import { useEffect, useState } from "react";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
@@ -164,82 +156,27 @@ export default function Landing() {
             </motion.div>
           </div>
 
-          {/* Right: Hero Visual */}
+          {/* Right: Hero Visual - simplify to a clean, neutral card without background blobs/overlays */}
           <div className="relative">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/20 dark:via-zinc-900/20 dark:to-purple-900/20 rounded-3xl border dark:border-white/10 p-6 md:p-8 shadow-sm"
+              className="relative rounded-3xl border dark:border-white/10 p-6 md:p-8 shadow-sm"
             >
-              {/* Gradient orb */}
-              <div className="absolute -top-6 -left-6 h-28 w-28 rounded-full bg-gradient-to-br from-indigo-400/30 to-purple-400/30 blur-2xl" />
-              <div className="absolute -bottom-10 -right-6 h-32 w-32 rounded-full bg-gradient-to-br from-pink-400/20 to-amber-300/20 blur-2xl" />
-
-              {/* Central abstract panel */}
-              <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 p-6 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 via-purple-100 to-pink-100 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 opacity-50" />
-                <div className="relative grid place-items-center">
-                  <motion.div
-                    initial={{ scale: 0.95, rotate: 0 }}
-                    animate={{ scale: 1, rotate: 0.5 }}
-                    transition={{ repeat: Infinity, repeatType: "reverse", duration: 6, ease: "easeInOut" }}
-                    className="h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-60"
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="relative z-10 text-center"
-                  >
-                    <div className="mx-auto w-16 h-16 rounded-2xl bg-white/60 backdrop-blur ring-1 ring-black/5 grid place-items-center">
-                      <Rocket className="h-8 w-8 text-indigo-600" />
-                    </div>
-                    <p className="mt-3 text-sm text-muted-foreground">
-                      Explore branching career paths
-                    </p>
-                  </motion.div>
-                </div>
-
-                {/* Floating icons */}
+              <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 p-6 grid place-items-center">
                 <motion.div
-                  className="absolute left-6 top-6"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="relative z-10 text-center"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
-                    <Laptop className="h-5 w-5 text-purple-600" />
+                  <div className="mx-auto w-16 h-16 rounded-2xl bg-white/60 dark:bg-white/10 backdrop-blur ring-1 ring-black/5 grid place-items-center">
+                    <Rocket className="h-8 w-8 text-primary" />
                   </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute right-8 top-10"
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
-                    <PenTool className="h-5 w-5 text-pink-600" />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute left-10 bottom-8"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
-                    <Briefcase className="h-5 w-5 text-indigo-600" />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute right-12 bottom-6"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
-                    <FileText className="h-5 w-5 text-amber-600" />
-                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Explore branching career paths
+                  </p>
                 </motion.div>
               </div>
             </motion.div>
@@ -286,48 +223,37 @@ export default function Landing() {
                 bg: "from-emerald-50 to-teal-50",
               },
             ].map((item, i) => (
-              <Prism key={i} speedSeconds={12} glowClassName="opacity-60">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.05 * i }}
+                className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-md`}
+              >
                 <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.05 * i }}
-                  className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-[0_0_60px_rgba(99,102,241,0.35),0_0_80px_rgba(168,85,247,0.25)] hover:ring-2 hover:ring-primary/50 hover:border-transparent`}
+                  initial={{ scale: 0.95, opacity: 0.9 }}
+                  whileHover={
+                    item.emoji === "💡"
+                      ? { scale: 1.05, filter: "brightness(1.05)" }
+                      : item.emoji === "🎮"
+                      ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
+                      : { rotate: [0, -3, 3, 0], transition: { duration: 0.8 } }
+                  }
+                  className="text-3xl"
                 >
-                  {/* Gradient inner glow overlay */}
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400/20 via-fuchsia-400/15 to-amber-300/15 opacity-0 group-hover:opacity-100 transition-opacity"
-                  />
-                  {/* Subtle inner ring to sell glass effect */}
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/40 dark:ring-white/10"
-                  />
-                  <motion.div
-                    initial={{ scale: 0.95, opacity: 0.9 }}
-                    whileHover={
-                      item.emoji === "💡"
-                        ? { scale: 1.05, filter: "brightness(1.1)" }
-                        : item.emoji === "🎮"
-                        ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
-                        : { rotate: [0, -4, 4, 0], transition: { duration: 0.8 } }
-                    }
-                    className="text-3xl"
-                  >
-                    {item.emoji}
-                  </motion.div>
-                  <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
-                  <p className="text-muted-foreground mt-2">{item.desc}</p>
+                  {item.emoji}
                 </motion.div>
-              </Prism>
+                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                <p className="text-muted-foreground mt-2">{item.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <section id="how-it-works" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           {/* Scroll-reveal header */}
           <motion.div
@@ -342,17 +268,8 @@ export default function Landing() {
               A simple path from curious to confident
             </p>
           </motion.div>
- 
+          
           <div className="relative">
-            {/* Animated vertical line */}
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{ transformOrigin: "top" }}
-              className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200"
-            />
             <ol className="space-y-8 md:space-y-10">
               {[
                 { label: "Onboarding", desc: "Connect LinkedIn, upload your resume, record a short intro." },
@@ -456,10 +373,8 @@ export default function Landing() {
           >
             <div
               data-parallax
-              className="relative rounded-3xl border dark:border-white/10 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/20 dark:via-zinc-900/20 dark:to-purple-900/20 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
+              className="relative rounded-3xl border dark:border-white/10 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
             >
-              <div className="absolute -top-12 -left-8 h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-300/30 to-purple-300/30 blur-2xl" />
-              <div className="absolute -bottom-10 -right-8 h-44 w-44 rounded-full bg-gradient-to-tr from-pink-300/30 to-amber-300/30 blur-2xl" />
               <div className="relative aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -467,8 +382,8 @@ export default function Landing() {
                   viewport={{ once: true }}
                   className="text-center px-6"
                 >
-                  <div className="mx-auto w-20 h-20 rounded-2xl bg-indigo-50 grid place-items-center">
-                    <Users className="h-10 w-10 text-indigo-600" />
+                  <div className="mx-auto w-20 h-20 rounded-2xl bg-secondary grid place-items-center">
+                    <Users className="h-10 w-10 text-primary" />
                   </div>
                   <p className="mt-4 text-sm text-muted-foreground">
                     A young professional at a crossroads, exploring branching paths with confidence.
@@ -482,20 +397,12 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="mt-8 relative overflow-hidden">
-        <motion.div
-          aria-hidden
-          initial={{ backgroundPosition: "0% 50%" }}
-          animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ backgroundSize: "300% 300%" }}
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-80"
-        />
-        <div className="text-white">
+        <div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div className="text-center">
               <h4 className="text-2xl font-semibold">
                 Don't just plan your career.{" "}
-                <span className="drop-shadow-[0_0_10px_rgba(236,72,153,0.6)] animate-pulse">
+                <span className="animate-pulse">
                   Simulate it.
                 </span>
               </h4>
@@ -517,7 +424,7 @@ export default function Landing() {
               </div>
               {!isAuthenticated && (
                 <div className="mt-8">
-                  <Button asChild size="lg" className="bg-white text-indigo-700 hover:bg-white/90">
+                  <Button asChild size="lg">
                     <Link to="/auth">
                       Get Started
                       <ArrowRight className="ml-2 h-5 w-5" />
@@ -525,7 +432,7 @@ export default function Landing() {
                   </Button>
                 </div>
               )}
-              <div className="mt-4 text-sm text-white/90">Created by Team DataVista</div>
+              <div className="mt-4 text-sm text-muted-foreground">Created by Team DataVista</div>
             </div>
           </div>
         </div>
