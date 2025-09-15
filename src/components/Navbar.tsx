@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
-import { Menu, User, X, Moon, Sun } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -92,13 +92,6 @@ export function Navbar() {
     return () => clearInterval(id);
   }, []);
 
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-    localStorage.setItem("theme", next);
-  };
-
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
@@ -165,21 +158,6 @@ export function Navbar() {
 
                 {/* Separate pill for theme + profile on extreme right */}
                 <div className="flex items-center gap-1 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-xl px-1.5 py-1 shadow-lg shadow-black/5">
-                  {/* Theme toggle */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={toggleTheme}
-                    className="h-8 w-8 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
-                    title="Toggle theme"
-                  >
-                    {theme === "dark" ? (
-                      <Sun className="h-4 w-4 text-yellow-400" />
-                    ) : (
-                      <Moon className="h-4 w-4 text-indigo-600" />
-                    )}
-                  </Button>
-
                   {/* Profile */}
                   {isAuthenticated ? (
                     <DropdownMenu>
@@ -227,19 +205,6 @@ export function Navbar() {
 
               {/* Mobile controls inside pill */}
               <div className="md:hidden flex items-center gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleTheme}
-                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
-                  title="Toggle theme"
-                >
-                  {theme === "dark" ? (
-                    <Sun className="h-4 w-4 text-yellow-400" />
-                  ) : (
-                    <Moon className="h-4 w-4 text-indigo-600" />
-                  )}
-                </Button>
                 <Button
                   variant="ghost"
                   size="sm"
