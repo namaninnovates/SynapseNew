@@ -45,7 +45,19 @@ export default function Landing() {
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden`}>
-      <BackgroundAurora />
+      {/* Static background image as requested */}
+      <div className="absolute inset-0 -z-10">
+        <img
+          src="https://harmless-tapir-303.convex.cloud/api/storage/b1439894-aac5-4d0b-82bc-1e988ac8784b"
+          alt=""
+          className="w-full h-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+        {/* Soft overlay for contrast in light/dark modes */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/40 pointer-events-none" />
+      </div>
+
       {/* Hero Section */}
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <span id="top" className="absolute -top-24" />
