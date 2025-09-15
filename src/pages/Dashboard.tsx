@@ -309,7 +309,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button asChild variant="outline" className="h-auto p-6">
+                  <Button asChild variant="outline" className="h-auto p-6 w-full">
                     <Link to="/skills" className="flex flex-col items-center space-y-2">
                       <Brain className="h-8 w-8 text-violet-500" />
                       <span className="font-medium text-violet-500">Skills Graph</span>
@@ -319,7 +319,7 @@ export default function Dashboard() {
                     </Link>
                   </Button>
                   
-                  <Button asChild variant="outline" className="h-auto p-6">
+                  <Button asChild variant="outline" className="h-auto p-6 w-full">
                     <Link to="/trajectories" className="flex flex-col items-center space-y-2">
                       <ArrowRight className="h-8 w-8 text-amber-500" />
                       <span className="font-medium text-amber-500">Career Paths</span>
@@ -329,7 +329,7 @@ export default function Dashboard() {
                     </Link>
                   </Button>
                   
-                  <Button asChild variant="outline" className="h-auto p-6">
+                  <Button asChild variant="outline" className="h-auto p-6 w-full">
                     <Link to="/portfolio" className="flex flex-col items-center space-y-2">
                       <FileText className="h-8 w-8 text-emerald-500" />
                       <span className="font-medium text-emerald-500">Portfolio</span>

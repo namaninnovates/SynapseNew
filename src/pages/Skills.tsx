@@ -212,7 +212,7 @@ export default function Skills() {
               </div>
 
               <div className="flex justify-center">
-                <Button asChild>
+                <Button asChild className="w-full sm:w-auto">
                   <Link to="/trajectories">
                     Explore Career Paths
                     <ArrowRight className="ml-2 h-4 w-4" />

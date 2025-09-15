@@ -126,7 +126,7 @@ export default function Landing() {
                     asChild
                     variant="ghost"
                     size="lg"
-                    className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40 w-full sm:w-auto"
                   >
                     <Link to="/dashboard">
                       {user?.onboardingCompleted ? "Dashboard" : "Complete Setup"}
@@ -139,7 +139,7 @@ export default function Landing() {
                       asChild
                       variant="ghost"
                       size="lg"
-                      className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40"
+                      className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40 w-full sm:w-auto"
                     >
                       <Link to="/auth">
                         Get Started Free
@@ -150,7 +150,7 @@ export default function Landing() {
                       variant="outline"
                       size="lg"
                       onClick={scrollToHowItWorks}
-                      className="text-base md:text-lg px-8 py-6 hover:bg-indigo-50 hover:text-indigo-700"
+                      className="text-base md:text-lg px-8 py-6 hover:bg-indigo-50 hover:text-indigo-700 w-full sm:w-auto"
                     >
                       See How It Works
                     </Button>
