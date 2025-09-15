@@ -56,23 +56,6 @@ export default function Landing() {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left: Text */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-6"
-              >
-                {/* Animated emblem */}
-                <motion.div
-                  initial={{ scale: 0.9, rotate: -4, opacity: 0 }}
-                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 160, damping: 14 }}
-                  className="inline-flex items-center justify-center p-4 rounded-2xl bg-white/80 dark:bg-white/10 shadow-sm ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-sm"
-                >
-                  <Brain className="h-12 w-12 text-[#4285F4]" />
-                </motion.div>
-              </motion.div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
