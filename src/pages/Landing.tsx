@@ -10,51 +10,102 @@ import {
   Lightbulb,
   Gamepad2,
   FolderKanban,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import BackgroundAurora from "@/components/BackgroundAurora";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
 
-  const [typedText, setTypedText] = useState("");
-  const [typingDone, setTypingDone] = useState(false);
   const [hue, setHue] = useState(265);
-  const fullQuote =
-    "“I felt stuck—too many choices, no clear direction. Synapse helped me test-drive product roles through real simulations. I discovered what I'm great at and built a portfolio I'm proud of. I went from confused to confident.”";
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    let i = 0;
-    const id = setInterval(() => {
-      setTypedText(fullQuote.slice(0, i + 1));
-      i++;
-      if (i >= fullQuote.length) {
-        clearInterval(id);
-        setTypingDone(true);
-      }
-    }, 18);
-    return () => clearInterval(id);
-  }, []);
+  // Smooth scroll helper for the hero CTA to the "How It Works" section
+  const scrollToHowItWorks = () => {
+    const el = document.getElementById("how-it-works");
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 90; // account for fixed navbar
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const id = setInterval(() => setHue((h) => (h + 1) % 360), 40);
     return () => clearInterval(id);
   }, []);
 
-  // Smooth scroll to the "How It Works" section
-  const scrollToHowItWorks = () => {
-    const el = document.getElementById("how-it-works");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      window.location.hash = "#how-it-works";
-    }
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      // Convert vertical scroll into horizontal motion
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        el.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    };
+    const onScroll = () => {
+      const cards = Array.from(el.querySelectorAll("[data-story-card]")) as HTMLElement[];
+      if (cards.length === 0) return;
+      const { left, width } = el.getBoundingClientRect();
+      const center = left + width / 2;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      cards.forEach((c, i) => {
+        const r = c.getBoundingClientRect();
+        const cCenter = r.left + r.width / 2;
+        const dist = Math.abs(cCenter - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      });
+      setActive(bestIdx);
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("scroll", onScroll, { passive: true });
+    // initial compute
+    onScroll();
+
+    return () => {
+      el.removeEventListener("wheel", onWheel as any);
+      el.removeEventListener("scroll", onScroll as any);
+    };
+  }, []);
+
+  const stories = [
+    {
+      name: "Aarav",
+      quote: `“I wasn't sure if data science was really for me. Through Synapse, I got hands-on with real-world challenges and discovered how much I enjoy solving problems with data. I built projects that now live in my portfolio and gave me the confidence to apply for roles I once thought were out of reach."`,
+      tagline: "From uncertain to unstoppable — with proof of skills that matter.",
+    },
+    {
+      name: "Meera",
+      quote: `“I felt like I was going in circles, applying to jobs without really knowing if they were the right fit. Synapse let me simulate marketing roles, test my skills, and see where I truly thrive. For the first time, I had clarity and a path that actually excites me."`,
+      tagline: "From directionless to driven — and a career path with clarity.",
+    },
+    {
+      name: "Rohan",
+      quote: `"Breaking into tech felt overwhelming with so many roles I didn't fully understand. Synapse gave me a safe space to explore UX design and product management through simulations. I gained confidence, learned by doing, and built a portfolio that finally speaks for me."`,
+      tagline: "From overwhelmed to confident — with a portfolio that opens doors.",
+    },
+  ];
+
+  const scrollByCards = (dir: -1 | 1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector("[data-story-card]") as HTMLElement | null;
+    const step = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
+    el.scrollTo({ left: el.scrollLeft + dir * step, behavior: "smooth" });
   };
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden`}>
-      {/* Wrap scrolling content so it stays above the fixed background/overlay */}
       <div className="relative z-20">
         {/* Hero Section */}
         <section className="pt-56 md:pt-64 pb-10 md:pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center min-h-[70vh] grid place-items-center">
@@ -392,86 +443,118 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Student Story */}
+        {/* STORIES: horizontal perspective scroller */}
         <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-          <span id="story" className="block -mt-24 pt-24" />
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* Left column reveal */}
+          <div className="max-w-7xl mx-auto">
             <motion.div
-              className="order-2 lg:order-1"
-              initial={{ opacity: 0, x: -24 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-8"
             >
-              <h3 className="text-3xl font-bold tracking-tight">Priya's Story</h3>
-              <p className="text-muted-foreground mt-4 text-lg">
-                {typedText}
+              <h3 className="text-3xl md:text-4xl font-bold tracking-tight">Stories</h3>
+              <p className="text-muted-foreground text-lg mt-3">
+                Real journeys from exploration to confidence
               </p>
-              {typingDone && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-3 text-sm"
+            </motion.div>
+
+            <div className="relative">
+              {/* Subtle glow behind active card */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10"
+                style={{
+                  background:
+                    "radial-gradient(600px 160px at 50% 60%, rgba(99,102,241,0.25), rgba(56,189,248,0.18) 40%, rgba(0,0,0,0) 70%)",
+                  filter: "blur(10px)",
+                }}
+              />
+
+              {/* Arrow controls (desktop only) */}
+              <div className="hidden md:flex items-center justify-between absolute inset-y-0 left-0 right-0">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => scrollByCards(-1)}
+                  className="rounded-full bg-background/60 backdrop-blur-md border-white/20"
                 >
-                  <span>From </span>
-                  <span className="text-rose-600 font-semibold">confused</span>
-                  <span> to </span>
-                  <span className="text-emerald-600 font-semibold">confident</span>
-                  <span> — and a standout </span>
-                  <span className="text-indigo-600 font-semibold">portfolio</span>
-                  <span>.</span>
-                </motion.div>
-              )}
-              <div className="mt-6">
-                <Button asChild className="px-6">
-                  <Link to="/auth">Try Your Own Story</Link>
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => scrollByCards(1)}
+                  className="rounded-full bg-background/60 backdrop-blur-md border-white/20"
+                >
+                  <ChevronRight className="h-5 w-5" />
                 </Button>
               </div>
-            </motion.div>
-            {/* Right column reveal */}
-            <motion.div
-              className="order-1 lg:order-2"
-              onMouseMove={(e) => {
-                const el = e.currentTarget;
-                const rect = el.getBoundingClientRect();
-                const px = (e.clientX - rect.left) / rect.width - 0.5;
-                const py = (e.clientY - rect.top) / rect.height - 0.5;
-                const inner = el.querySelector("[data-parallax]") as HTMLElement | null;
-                if (inner) {
-                  inner.style.transform = `rotateX(${py * -4}deg) rotateY(${px * 4}deg) translateZ(0)`;
-                }
-              }}
-              onMouseLeave={(e) => {
-                const inner = (e.currentTarget.querySelector("[data-parallax]") as HTMLElement | null);
-                if (inner) inner.style.transform = "";
-              }}
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
+
+              {/* Horizontal scroller with snap; vertical wheel mapped to horizontal */}
               <div
-                data-parallax
-                className="relative rounded-3xl border dark:border-white/10 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
+                ref={scrollerRef}
+                className="no-scrollbar relative overflow-x-auto overflow-y-hidden snap-x snap-mandatory flex gap-6 md:gap-8 px-1 md:px-2 py-2"
+                style={{ scrollBehavior: "smooth" }}
               >
-                <div className="relative aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
+                {stories.map((s, i) => (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    key={i}
+                    data-story-card
+                    initial={{ opacity: 0, y: 18 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center px-6"
+                    transition={{ duration: 0.45, delay: 0.05 * i }}
+                    className="snap-center shrink-0 w-[88%] sm:w-[78%] md:w-[520px] lg:w-[560px]"
                   >
-                    <div className="mx-auto w-20 h-20 rounded-2xl bg-secondary grid place-items-center">
-                      <Users className="h-10 w-10 text-primary" />
+                    {/* Outline glow via masked gradient on hover */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -inset-[1px] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{
+                        padding: "2px",
+                        background:
+                          "conic-gradient(from 0deg, rgba(99,102,241,0.9), rgba(56,189,248,0.9), rgba(236,72,153,0.9), rgba(99,102,241,0.9))",
+                        WebkitMask:
+                          "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
+                        borderRadius: "1rem",
+                      } as React.CSSProperties}
+                    />
+                    {/* Card */}
+                    <div
+                      className={[
+                        "group relative rounded-2xl p-6 md:p-8",
+                        "bg-white/10 dark:bg-white/5 backdrop-blur-xl ring-1 ring-white/25 dark:ring-white/10",
+                        "shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_30px_rgba(0,0,0,0.15)]",
+                        "transition-transform duration-300",
+                        i === active ? "scale-[1.02]" : "scale-[0.98] opacity-90",
+                      ].join(" ")}
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+                      }}
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="h-10 w-10 rounded-xl bg-white/15 grid place-items-center ring-1 ring-white/20">
+                          <Users className="h-5 w-5 text-white/90" />
+                        </div>
+                        <h4 className="text-xl md:text-2xl font-semibold">
+                          {s.name}\'s Story
+                        </h4>
+                      </div>
+                      <p className="italic text-muted-foreground">
+                        {s.quote}
+                      </p>
+                      <div className="mt-4 font-semibold">
+                        {s.tagline}
+                      </div>
                     </div>
-                    <p className="mt-4 text-sm text-muted-foreground">
-                      A young professional at a crossroads, exploring branching paths with confidence.
-                    </p>
                   </motion.div>
-                </div>
+                ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
