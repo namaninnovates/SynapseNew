@@ -420,5 +420,5 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
     suspendWhenOffscreen,
   ]);
 
-  return <div className="prism-container absolute inset-0 z-0 pointer-events-none" ref={containerRef} />;
+  return <div className="prism-container fixed inset-0 z-0 pointer-events-none" ref={containerRef} />;
 }
