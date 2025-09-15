@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
+import BackgroundAurora from "@/components/BackgroundAurora";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
@@ -44,6 +45,7 @@ export default function Landing() {
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden`}>
+      <BackgroundAurora />
       {/* Hero Section */}
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <span id="top" className="absolute -top-24" />
