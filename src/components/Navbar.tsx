@@ -67,7 +67,7 @@ export function Navbar() {
       {/* Pill-shaped, centered container with margins and soft shadow */}
       <div
         className={[
-          "pointer-events-none px-6 sm:px-10 lg:px-16",
+          "pointer-events-none px-8 sm:px-12 lg:px-20",
           "mt-10",
         ].join(" ")}
       >
@@ -117,63 +117,66 @@ export function Navbar() {
                   ))}
                 </nav>
 
-                {/* Theme toggle */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleTheme}
-                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
-                  title="Toggle theme"
-                >
-                  {theme === "dark" ? (
-                    <Sun className="h-4 w-4 text-yellow-400" />
-                  ) : (
-                    <Moon className="h-4 w-4 text-indigo-600" />
-                  )}
-                </Button>
-
-                {/* Profile */}
-                {isAuthenticated ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-9 px-2 rounded-full">
-                        <Avatar className="h-7 w-7">
-                          <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "Profile"} />
-                          <AvatarFallback className="text-xs">
-                            {(user?.name?.[0] ?? "U").toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-44">
-                      <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                        Dashboard
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate("/portfolio")}>
-                        Portfolio
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
-                        onClick={async () => {
-                          await signOut();
-                          navigate("/");
-                        }}
-                      >
-                        Sign Out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
+                {/* Separate pill for theme + profile on extreme right */}
+                <div className="flex items-center gap-1 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-xl px-1.5 py-1 shadow-lg shadow-black/5">
+                  {/* Theme toggle */}
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => navigate("/auth")}
-                    className="h-9 w-9 rounded-full"
-                    title="Sign in"
+                    onClick={toggleTheme}
+                    className="h-8 w-8 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
+                    title="Toggle theme"
                   >
-                    <User className="h-4 w-4" />
+                    {theme === "dark" ? (
+                      <Sun className="h-4 w-4 text-yellow-400" />
+                    ) : (
+                      <Moon className="h-4 w-4 text-indigo-600" />
+                    )}
                   </Button>
-                )}
+
+                  {/* Profile */}
+                  {isAuthenticated ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 px-2 rounded-full bg-transparent">
+                          <Avatar className="h-7 w-7">
+                            <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "Profile"} />
+                            <AvatarFallback className="text-xs">
+                              {(user?.name?.[0] ?? "U").toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-44">
+                        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                          Dashboard
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate("/portfolio")}>
+                          Portfolio
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
+                          onClick={async () => {
+                            await signOut();
+                            navigate("/");
+                          }}
+                        >
+                          Sign Out
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => navigate("/auth")}
+                      className="h-8 w-8 rounded-full"
+                      title="Sign in"
+                    >
+                      <User className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
               </div>
 
               {/* Mobile controls inside pill */}
