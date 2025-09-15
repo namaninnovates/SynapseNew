@@ -94,6 +94,11 @@ export default function Landing() {
       quote: `"Breaking into tech felt overwhelming with so many roles I didn't fully understand. Synapse gave me a safe space to explore UX design and product management through simulations. I gained confidence, learned by doing, and built a portfolio that finally speaks for me."`,
       tagline: "From overwhelmed to confident — with a portfolio that opens doors.",
     },
+    {
+      name: "Priya",
+      quote: `"Switching careers felt daunting until I tried Synapse. The simulations helped me test roles, fill gaps, and build a portfolio that truly reflects my abilities. I finally know where I want to go — and how to get there."`,
+      tagline: "From unsure to intentional — with clarity and momentum.",
+    },
   ];
 
   const scrollByCards = (dir: -1 | 1) => {
@@ -102,6 +107,15 @@ export default function Landing() {
     const card = el.querySelector("[data-story-card]") as HTMLElement | null;
     const step = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
     el.scrollTo({ left: el.scrollLeft + dir * step, behavior: "smooth" });
+  };
+
+  const scrollToIndex = (idx: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const cards = el.querySelectorAll("[data-story-card]") as NodeListOf<HTMLElement>;
+    const target = cards[idx];
+    if (!target) return;
+    el.scrollTo({ left: target.offsetLeft - 12, behavior: "smooth" });
   };
 
   return (
@@ -529,7 +543,9 @@ export default function Landing() {
                         "bg-white/10 dark:bg-white/5 backdrop-blur-xl ring-1 ring-white/25 dark:ring-white/10",
                         "shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_30px_rgba(0,0,0,0.15)]",
                         "transition-transform duration-300",
-                        i === active ? "scale-[1.02]" : "scale-[0.98] opacity-90",
+                        // Consistent height and perspective effect
+                        "min-h-[260px] md:min-h-[280px] flex flex-col",
+                        i === active ? "scale-[1.02]" : "scale-[0.98] opacity-90 md:blur-[0.25px]",
                       ].join(" ")}
                       style={{
                         backgroundImage:
@@ -541,7 +557,7 @@ export default function Landing() {
                           <Users className="h-5 w-5 text-white/90" />
                         </div>
                         <h4 className="text-xl md:text-2xl font-semibold">
-                          {s.name}\'s Story
+                          {s.name}'s Story
                         </h4>
                       </div>
                       <p className="italic text-muted-foreground">
@@ -552,6 +568,21 @@ export default function Landing() {
                       </div>
                     </div>
                   </motion.div>
+                ))}
+              </div>
+
+              {/* Dots pagination */}
+              <div className="mt-5 flex items-center justify-center gap-2">
+                {stories.map((_, i) => (
+                  <button
+                    key={i}
+                    aria-label={`Go to story ${i + 1}`}
+                    onClick={() => scrollToIndex(i)}
+                    className={[
+                      "h-2.5 rounded-full transition-all",
+                      i === active ? "w-6 bg-white/90" : "w-2.5 bg-white/50 hover:bg-white/70",
+                    ].join(" ")}
+                  />
                 ))}
               </div>
             </div>
