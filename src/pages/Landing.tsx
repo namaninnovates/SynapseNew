@@ -69,7 +69,7 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
-                className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-4 text-center text-white"
+                className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-4 text-center text-white -mt-3"
               >
                 Your{" "}
                 <motion.span
