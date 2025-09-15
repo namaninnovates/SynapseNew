@@ -202,24 +202,39 @@ export default function Landing() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.05 * i }}
-                  className="group relative rounded-2xl border bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 min-h-48 md:min-h-56 flex flex-col justify-center transition will-change-transform hover:-translate-y-1.5"
+                  // Outer: animated multicolor gradient border (fluid via hue animation)
+                  className="group relative rounded-2xl p-[2px] will-change-transform hover:-translate-y-1.5"
                   style={{
-                    borderColor: "transparent",
+                    background: `
+                      conic-gradient(
+                        from 0deg,
+                        hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 40) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 80) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 120) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 160) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 200) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 240) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 280) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${(hue + 320) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                        hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"})
+                      )
+                    `,
                     boxShadow: `
-                      inset 0 0 0 1.5px hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.90),
-                      inset 0 0 0 3px hsl(${(hue + 40) % 360} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.55),
-                      inset 0 0 0 5px hsl(${(hue + 80) % 360} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.35),
-                      0 0 18px hsl(${hue} 90% 68% / 0.35),
-                      0 0 36px hsl(${(hue + 40) % 360} 90% 70% / 0.25),
-                      0 0 64px hsl(${(hue + 80) % 360} 90% 72% / 0.20)
+                      0 0 22px hsl(${hue} 90% 68% / 0.28),
+                      0 0 44px hsl(${(hue + 60) % 360} 90% 70% / 0.22),
+                      0 0 68px hsl(${(hue + 120) % 360} 90% 72% / 0.18)
                     `,
                   }}
                 >
-                  <div className="text-3xl">
-                    <item.Icon className="h-8 w-8 text-white/90" strokeWidth={2.5} />
+                  {/* Inner panel: transparent glass (no fill), subtle inner ring for depth */}
+                  <div className="relative rounded-[1rem] md:rounded-[1rem] p-8 min-h-48 md:min-h-56 bg-transparent backdrop-blur-xl ring-1 ring-white/40 dark:ring-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+                    <div className="text-3xl">
+                      <item.Icon className="h-8 w-8 text-white/90" strokeWidth={2.5} />
+                    </div>
+                    <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                    <p className="text-muted-foreground mt-2">{item.desc}</p>
                   </div>
-                  <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
-                  <p className="text-muted-foreground mt-2">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
