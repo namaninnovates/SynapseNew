@@ -204,11 +204,14 @@ export default function Landing() {
                   transition={{ delay: 0.05 * i }}
                   className="group relative rounded-2xl border bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 min-h-48 md:min-h-56 flex flex-col justify-center transition will-change-transform hover:-translate-y-1.5"
                   style={{
-                    borderColor: `hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "55%" : "60%"})`,
+                    borderColor: "transparent",
                     boxShadow: `
-                      inset 0 0 0 1.5px hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.9),
-                      0 0 12px hsl(${hue} 90% 68% / 0.35),
-                      0 0 36px hsl(${hue} 90% 70% / 0.22)
+                      inset 0 0 0 1.5px hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.90),
+                      inset 0 0 0 3px hsl(${(hue + 40) % 360} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.55),
+                      inset 0 0 0 5px hsl(${(hue + 80) % 360} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.35),
+                      0 0 18px hsl(${hue} 90% 68% / 0.35),
+                      0 0 36px hsl(${(hue + 40) % 360} 90% 70% / 0.25),
+                      0 0 64px hsl(${(hue + 80) % 360} 90% 72% / 0.20)
                     `,
                   }}
                 >
