@@ -67,7 +67,18 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
       pointerEvents: "none",
     } as CSSStyleDeclaration);
 
-    container.appendChild(gl.canvas as unknown as Node);
+    // NEW: Create a dedicated fixed host attached to <body> so React doesn't manage it.
+    const host = document.createElement("div");
+    host.className = "prism-container";
+    Object.assign(host.style, {
+      position: "fixed",
+      inset: "0",
+      zIndex: "0",
+      pointerEvents: "none",
+    } as CSSStyleDeclaration);
+    document.body.appendChild(host);
+    host.appendChild(gl.canvas as unknown as Node);
+    // END NEW
 
     const vertex = `
       attribute vec2 position;
@@ -223,15 +234,17 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
     const mesh = new Mesh(gl, { geometry, program });
 
     const resize = () => {
-      const w = container.clientWidth || 1;
-      const h = container.clientHeight || 1;
+      const w = Math.max(1, window.innerWidth);
+      const h = Math.max(1, window.innerHeight);
       renderer.setSize(w, h);
       iResBuf[0] = gl.drawingBufferWidth;
       iResBuf[1] = gl.drawingBufferHeight;
       offsetPxBuf[0] = offX * dpr;
       offsetPxBuf[1] = offY * dpr;
-      program.uniforms.uPxScale.value = 1 / ((gl.drawingBufferHeight || 1) * 0.1 * SCALE);
+      (program.uniforms.uPxScale as any).value = 1 / ((gl.drawingBufferHeight || 1) * 0.1 * SCALE);
     };
+    window.addEventListener("resize", resize);
+    resize();
 
     const ro = new ResizeObserver(resize);
     ro.observe(container);
@@ -385,7 +398,9 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
 
     return () => {
       stopRAF();
-      ro.disconnect();
+
+      // Remove window resize listener
+      window.removeEventListener("resize", resize);
 
       if (animationType === "hover") {
         if (onPointerMove) window.removeEventListener("pointermove", onPointerMove);
@@ -399,7 +414,13 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
         delete container.__prismIO;
       }
 
-      if (gl.canvas.parentElement === container) container.removeChild(gl.canvas as unknown as Node);
+      // Safely remove canvas and host
+      if (gl.canvas.parentElement === host) {
+        host.removeChild(gl.canvas as unknown as Node);
+      }
+      if (document.body.contains(host)) {
+        document.body.removeChild(host);
+      }
     };
   }, [
     height,
