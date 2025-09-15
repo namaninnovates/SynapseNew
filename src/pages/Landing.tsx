@@ -439,7 +439,7 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 * i }}
-                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-md hover:-translate-y-1.5 hover:shadow-[0_0_36px] hover:shadow-primary/15 hover:ring-2 hover:ring-primary/30 hover:border-transparent dark:border-white/10 dark:bg-white/10`}
+                className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-[0_0_60px_rgba(99,102,241,0.35),0_0_80px_rgba(168,85,247,0.25)] hover:ring-2 hover:ring-primary/50 hover:border-transparent`}
               >
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0.9 }}
@@ -510,7 +510,7 @@ export default function Landing() {
                       <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
                     </div>
                   </div>
-                  <div className="rounded-xl bg-white/80 dark:bg-white/10 p-5 ring-1 ring-black/5 dark:ring-white/10 shadow-sm transition will-change-transform backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_28px] hover:shadow-primary/10 hover:ring-2 hover:ring-primary/25">
+                  <div className="rounded-xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 p-5 shadow-[0_1px_0_rgba(255,255,255,0.2)] ring-1 ring-black/5 dark:ring-white/10 transition will-change-transform backdrop-blur-xl hover:-translate-y-1.5 hover:shadow-[0_0_50px_rgba(99,102,241,0.28),0_0_60px_rgba(236,72,153,0.18)] hover:ring-2 hover:ring-primary/50">
                     <h4 className="text-lg font-semibold">{step.label}</h4>
                     <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
                   </div>
