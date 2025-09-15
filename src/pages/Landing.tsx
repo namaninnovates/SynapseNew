@@ -30,6 +30,12 @@ export default function Landing() {
   // Add RGB trail state
   const [trail, setTrail] = useState<Array<{ x: number; y: number; t: number }>>([]);
 
+  // Add refs for smoother cursor interpolation and trail timing
+  const targetPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const rafRef = useRef<number | null>(null);
+  const lastTrailTimeRef = useRef(0);
+  const TRAIL_LEN = 16; // reduce points for better performance
+
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
   const fullQuote =
@@ -63,13 +69,8 @@ export default function Landing() {
     setShowCursor(true);
 
     const handleMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-      // Update trail with latest position
-      setTrail((prev) => {
-        const next = [...prev, { x: e.clientX, y: e.clientY, t: Date.now() }];
-        // Keep last 24 points for a smooth trail
-        return next.slice(-24);
-      });
+      // Only update target position; animation loop will lerp and update state
+      targetPosRef.current = { x: e.clientX, y: e.clientY };
     };
     const handleDown = () => setIsDown(true);
     const handleUp = () => setIsDown(false);
@@ -81,12 +82,40 @@ export default function Landing() {
       setOverInteractive(!!interactive);
     };
 
+    // Start animation loop for smooth cursor + timed trail updates
+    const animate = () => {
+      setCursorPos((prev) => {
+        const tx = targetPosRef.current.x;
+        const ty = targetPosRef.current.y;
+        // Lerp for fluid motion
+        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+        const nx = lerp(prev.x, tx, 0.2);
+        const ny = lerp(prev.y, ty, 0.2);
+
+        // Trail: push at a fixed cadence for consistent length/smoothness
+        const now = performance.now();
+        if (now - lastTrailTimeRef.current > 16) {
+          setTrail((prevTrail) => {
+            const next = [...prevTrail, { x: nx, y: ny, t: Date.now() }];
+            return next.slice(-TRAIL_LEN);
+          });
+          lastTrailTimeRef.current = now;
+        }
+
+        return { x: nx, y: ny };
+      });
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+
     document.addEventListener("mousemove", handleMove);
     document.addEventListener("mousedown", handleDown);
     document.addEventListener("mouseup", handleUp);
     document.addEventListener("mouseover", handleOver);
 
     return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mousedown", handleDown);
       document.removeEventListener("mouseup", handleUp);
@@ -441,6 +470,16 @@ export default function Landing() {
                 transition={{ delay: 0.05 * i }}
                 className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-[0_0_60px_rgba(99,102,241,0.35),0_0_80px_rgba(168,85,247,0.25)] hover:ring-2 hover:ring-primary/50 hover:border-transparent`}
               >
+                {/* Gradient inner glow overlay */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400/20 via-fuchsia-400/15 to-amber-300/15 opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+                {/* Subtle inner ring to sell glass effect */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/40 dark:ring-white/10"
+                />
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0.9 }}
                   whileHover={
@@ -511,6 +550,16 @@ export default function Landing() {
                     </div>
                   </div>
                   <div className="rounded-xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 p-5 shadow-[0_1px_0_rgba(255,255,255,0.2)] ring-1 ring-black/5 dark:ring-white/10 transition will-change-transform backdrop-blur-xl hover:-translate-y-1.5 hover:shadow-[0_0_50px_rgba(99,102,241,0.28),0_0_60px_rgba(236,72,153,0.18)] hover:ring-2 hover:ring-primary/50">
+                    {/* Gradient inner glow overlay */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-400/15 via-purple-400/15 to-pink-400/15 opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
+                    {/* Inner ring for glass depth */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-white/40 dark:ring-white/10"
+                    />
                     <h4 className="text-lg font-semibold">{step.label}</h4>
                     <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
                   </div>
@@ -683,10 +732,9 @@ export default function Landing() {
                   scale: 1,
                 }}
                 transition={{
-                  type: "spring",
-                  stiffness: 320,
-                  damping: 28,
-                  mass: 0.4,
+                  // Use a short tween for smoother, consistent motion
+                  duration: 0.18,
+                  ease: "easeOut",
                 }}
               />
             );
