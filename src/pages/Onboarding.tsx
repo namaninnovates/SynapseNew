@@ -8,8 +8,16 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle, FileText, Linkedin, Upload, Video } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useMutation } from "convex/react";
+import { useMutation, useAction } from "convex/react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 export default function Onboarding() {
   const { isLoading, isAuthenticated, user } = useAuth();
@@ -18,8 +26,13 @@ export default function Onboarding() {
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState<string>("");
+  const [dialogMessage, setDialogMessage] = useState<string>("");
+  const [validLinkedinName, setValidLinkedinName] = useState<string | null>(null);
+
   const updateOnboardingStep = useMutation(api.profiles.updateOnboardingStep);
+  const validateLinkedinUrl = useAction(api.profilesActions.validateLinkedinUrl);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -44,12 +57,47 @@ export default function Onboarding() {
       toast.error("Please enter your LinkedIn URL");
       return;
     }
-    
+
+    try {
+      const result = await validateLinkedinUrl({ url: linkedinUrl });
+      if (!result?.valid) {
+        setValidLinkedinName(null);
+        setDialogTitle("Invalid LinkedIn URL");
+        setDialogMessage(
+          result?.reason ??
+            "That doesn't look like a valid LinkedIn profile link. Please check and try again."
+        );
+        setDialogOpen(true);
+        return;
+      }
+
+      // Valid — show the extracted name and ask to continue
+      setValidLinkedinName(result.name ?? null);
+      setDialogTitle("LinkedIn Profile Detected");
+      setDialogMessage(`We found this name on the profile: ${result.name}`);
+      setDialogOpen(true);
+    } catch (error) {
+      setValidLinkedinName(null);
+      setDialogTitle("Unable to Verify");
+      setDialogMessage(
+        "We couldn't verify your LinkedIn URL right now. Please try again in a moment."
+      );
+      setDialogOpen(true);
+    }
+  };
+
+  const confirmLinkedin = async () => {
     try {
       await updateOnboardingStep({ step: "linkedin" });
-      toast.success("LinkedIn connected successfully!");
+      toast.success(
+        validLinkedinName
+          ? `LinkedIn connected! Welcome, ${validLinkedinName}.`
+          : "LinkedIn connected successfully!"
+      );
+      setDialogOpen(false);
       setCurrentStep(2);
-    } catch (error) {
+    } catch {
+      setDialogOpen(false);
       toast.error("Failed to connect LinkedIn");
     }
   };
@@ -275,6 +323,25 @@ export default function Onboarding() {
             )}
           </Card>
         </motion.div>
+
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>{dialogTitle}</DialogTitle>
+              <DialogDescription>
+                {dialogMessage}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex gap-2">
+              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                {validLinkedinName ? "Edit URL" : "Close"}
+              </Button>
+              {validLinkedinName && (
+                <Button onClick={confirmLinkedin}>Continue</Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

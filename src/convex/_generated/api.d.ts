@@ -18,6 +18,7 @@ import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as portfolio from "../portfolio.js";
 import type * as profiles from "../profiles.js";
+import type * as profilesActions from "../profilesActions.js";
 import type * as projects from "../projects.js";
 import type * as skills from "../skills.js";
 import type * as trajectories from "../trajectories.js";
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   portfolio: typeof portfolio;
   profiles: typeof profiles;
+  profilesActions: typeof profilesActions;
   projects: typeof projects;
   skills: typeof skills;
   trajectories: typeof trajectories;
