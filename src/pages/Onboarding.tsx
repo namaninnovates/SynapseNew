@@ -5,7 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/convex/_generated/api";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle, FileText, Linkedin, Upload, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle, FileText, Linkedin, Upload, Video, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMutation, useAction } from "convex/react";
@@ -35,6 +35,11 @@ export default function Onboarding() {
   const validateLinkedinUrl = useAction(api.profilesActions.validateLinkedinUrl);
   const setUserName = useMutation(api.profiles.setUserName);
 
+  const [isValidating, setIsValidating] = useState(false);
+  const [isUploadingResume, setIsUploadingResume] = useState(false);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       navigate("/auth");
@@ -60,6 +65,7 @@ export default function Onboarding() {
     }
 
     try {
+      setIsValidating(true);
       const result = await validateLinkedinUrl({ url: linkedinUrl });
       if (!result?.valid) {
         setValidLinkedinName(null);
@@ -84,11 +90,14 @@ export default function Onboarding() {
         "We couldn't verify your LinkedIn URL right now. Please try again in a moment."
       );
       setDialogOpen(true);
+    } finally {
+      setIsValidating(false);
     }
   };
 
   const confirmLinkedin = async () => {
     try {
+      setIsConfirming(true);
       if (validLinkedinName) {
         await setUserName({ name: validLinkedinName });
       }
@@ -103,6 +112,8 @@ export default function Onboarding() {
     } catch {
       setDialogOpen(false);
       toast.error("Failed to connect LinkedIn");
+    } finally {
+      setIsConfirming(false);
     }
   };
 
@@ -113,11 +124,14 @@ export default function Onboarding() {
     }
     
     try {
+      setIsUploadingResume(true);
       await updateOnboardingStep({ step: "resume" });
       toast.success("Resume uploaded successfully!");
       setCurrentStep(3);
     } catch (error) {
       toast.error("Failed to upload resume");
+    } finally {
+      setIsUploadingResume(false);
     }
   };
 
@@ -128,12 +142,15 @@ export default function Onboarding() {
     }
     
     try {
+      setIsUploadingVideo(true);
       await updateOnboardingStep({ step: "video" });
       await updateOnboardingStep({ step: "completed" });
       toast.success("Video uploaded successfully!");
       navigate("/dashboard");
     } catch (error) {
       toast.error("Failed to upload video");
+    } finally {
+      setIsUploadingVideo(false);
     }
   };
 
@@ -218,13 +235,22 @@ export default function Onboarding() {
                     />
                   </div>
                   <div className="flex justify-between">
-                    <Button variant="outline" onClick={() => navigate("/dashboard")}>
+                    <Button variant="outline" onClick={() => navigate("/dashboard")} disabled={isValidating}>
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Back
                     </Button>
-                    <Button onClick={handleLinkedinConnect}>
-                      Connect LinkedIn
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                    <Button onClick={handleLinkedinConnect} disabled={isValidating || !linkedinUrl}>
+                      {isValidating ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Validating...
+                        </>
+                      ) : (
+                        <>
+                          Connect LinkedIn
+                          <ArrowRight className="h-4 w-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </div>
                 </CardContent>
@@ -261,13 +287,22 @@ export default function Onboarding() {
                     />
                   </div>
                   <div className="flex justify-between">
-                    <Button variant="outline" onClick={() => setCurrentStep(1)}>
+                    <Button variant="outline" onClick={() => setCurrentStep(1)} disabled={isUploadingResume}>
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Back
                     </Button>
-                    <Button onClick={handleResumeUpload}>
-                      Upload Resume
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                    <Button onClick={handleResumeUpload} disabled={isUploadingResume || !resumeFile}>
+                      {isUploadingResume ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          Upload Resume
+                          <ArrowRight className="h-4 w-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </div>
                 </CardContent>
@@ -313,13 +348,22 @@ export default function Onboarding() {
                     </ul>
                   </div>
                   <div className="flex justify-between">
-                    <Button variant="outline" onClick={() => setCurrentStep(2)}>
+                    <Button variant="outline" onClick={() => setCurrentStep(2)} disabled={isUploadingVideo}>
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Back
                     </Button>
-                    <Button onClick={handleVideoUpload}>
-                      Complete Setup
-                      <CheckCircle className="h-4 w-4 ml-2" />
+                    <Button onClick={handleVideoUpload} disabled={isUploadingVideo || !videoFile}>
+                      {isUploadingVideo ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Completing...
+                        </>
+                      ) : (
+                        <>
+                          Complete Setup
+                          <CheckCircle className="h-4 w-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </div>
                 </CardContent>
@@ -329,7 +373,9 @@ export default function Onboarding() {
         </motion.div>
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent
+            className="sm:max-w-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 md:data-[state=open]:slide-in-from-top-8 md:data-[state=closed]:slide-out-to-top-8 backdrop-blur-xl ring-1 ring-white/20 dark:ring-white/10 shadow-2xl"
+          >
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
               <DialogDescription>
@@ -337,11 +383,20 @@ export default function Onboarding() {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="flex gap-2">
-              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={isConfirming}>
                 {validLinkedinName ? "Edit URL" : "Close"}
               </Button>
               {validLinkedinName && (
-                <Button onClick={confirmLinkedin}>Continue</Button>
+                <Button onClick={confirmLinkedin} disabled={isConfirming}>
+                  {isConfirming ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Connecting...
+                    </>
+                  ) : (
+                    "Continue"
+                  )}
+                </Button>
               )}
             </DialogFooter>
           </DialogContent>
