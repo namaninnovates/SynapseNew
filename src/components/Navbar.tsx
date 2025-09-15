@@ -48,7 +48,7 @@ export function Navbar() {
       animate={{ y: 0 }}
       className="sticky top-0 z-50 border-b border-white/20 dark:border-white/10 backdrop-blur-xl backdrop-saturate-150 bg-transparent supports-[backdrop-filter]:bg-transparent shadow-none"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div className="flex items-center h-16 md:grid md:grid-cols-[auto_1fr_auto]">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
