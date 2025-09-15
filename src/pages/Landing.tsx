@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
+import { Prism } from "@/components/ui/prism";
 
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
@@ -462,40 +463,41 @@ export default function Landing() {
                 bg: "from-emerald-50 to-teal-50",
               },
             ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.05 * i }}
-                className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-[0_0_60px_rgba(99,102,241,0.35),0_0_80px_rgba(168,85,247,0.25)] hover:ring-2 hover:ring-primary/50 hover:border-transparent`}
-              >
-                {/* Gradient inner glow overlay */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400/20 via-fuchsia-400/15 to-amber-300/15 opacity-0 group-hover:opacity-100 transition-opacity"
-                />
-                {/* Subtle inner ring to sell glass effect */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/40 dark:ring-white/10"
-                />
+              <Prism key={i} speedSeconds={12} glowClassName="opacity-60">
                 <motion.div
-                  initial={{ scale: 0.95, opacity: 0.9 }}
-                  whileHover={
-                    item.emoji === "💡"
-                      ? { scale: 1.05, filter: "brightness(1.1)" }
-                      : item.emoji === "🎮"
-                      ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
-                      : { rotate: [0, -4, 4, 0], transition: { duration: 0.8 } }
-                  }
-                  className="text-3xl"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.05 * i }}
+                  className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-[0_0_60px_rgba(99,102,241,0.35),0_0_80px_rgba(168,85,247,0.25)] hover:ring-2 hover:ring-primary/50 hover:border-transparent`}
                 >
-                  {item.emoji}
+                  {/* Gradient inner glow overlay */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400/20 via-fuchsia-400/15 to-amber-300/15 opacity-0 group-hover:opacity-100 transition-opacity"
+                  />
+                  {/* Subtle inner ring to sell glass effect */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/40 dark:ring-white/10"
+                  />
+                  <motion.div
+                    initial={{ scale: 0.95, opacity: 0.9 }}
+                    whileHover={
+                      item.emoji === "💡"
+                        ? { scale: 1.05, filter: "brightness(1.1)" }
+                        : item.emoji === "🎮"
+                        ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
+                        : { rotate: [0, -4, 4, 0], transition: { duration: 0.8 } }
+                    }
+                    className="text-3xl"
+                  >
+                    {item.emoji}
+                  </motion.div>
+                  <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                  <p className="text-muted-foreground mt-2">{item.desc}</p>
                 </motion.div>
-                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
-                <p className="text-muted-foreground mt-2">{item.desc}</p>
-              </motion.div>
+              </Prism>
             ))}
           </div>
         </div>
