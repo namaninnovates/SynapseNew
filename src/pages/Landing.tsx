@@ -60,7 +60,7 @@ export default function Landing() {
       {/* Wrap scrolling content so it stays above the fixed background/overlay */}
       <div className="relative z-20">
         {/* Hero Section */}
-        <section className="pt-28 md:pt-32 pb-10 md:pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center min-h-[70vh] grid place-items-center">
+        <section className="pt-36 md:pt-40 pb-10 md:pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center min-h-[70vh] grid place-items-center">
           <span id="top" className="absolute -top-24" />
           <div className="max-w-4xl mx-auto grid grid-cols-1 gap-10 items-center justify-items-center justify-center">
             {/* Left: Text */}
