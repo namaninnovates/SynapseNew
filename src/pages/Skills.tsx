@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router";
 import { useQuery } from "convex/react";
 
 export default function Skills() {
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const skills = useQuery(api.skills.getUserSkills);
 
@@ -68,7 +68,7 @@ export default function Skills() {
           className="mb-12"
         >
           <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Your Skills Profile
+            Hello {user?.name ?? "there"}, here is an analysis of your skills
           </h1>
           <p className="text-xl text-muted-foreground">
             AI-powered analysis of your capabilities and strengths

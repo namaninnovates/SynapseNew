@@ -33,6 +33,7 @@ export default function Onboarding() {
 
   const updateOnboardingStep = useMutation(api.profiles.updateOnboardingStep);
   const validateLinkedinUrl = useAction(api.profilesActions.validateLinkedinUrl);
+  const setUserName = useMutation(api.profiles.setUserName);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -88,6 +89,9 @@ export default function Onboarding() {
 
   const confirmLinkedin = async () => {
     try {
+      if (validLinkedinName) {
+        await setUserName({ name: validLinkedinName });
+      }
       await updateOnboardingStep({ step: "linkedin" });
       toast.success(
         validLinkedinName
