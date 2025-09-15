@@ -626,7 +626,7 @@ export default function Landing() {
                     </Button>
                   </div>
                 )}
-                <div className="mt-4 text-sm text-muted-foreground">Created by namaninnovates ❤️</div>
+                <div className="mt-4 text-sm text-muted-foreground">Created with ❤️ by namaninnovates</div>
               </div>
             </div>
           </div>
