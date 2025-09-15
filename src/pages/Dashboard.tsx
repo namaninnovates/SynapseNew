@@ -311,8 +311,8 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Button asChild variant="outline" className="h-auto p-6">
                     <Link to="/skills" className="flex flex-col items-center space-y-2">
-                      <Brain className="h-8 w-8" />
-                      <span className="font-medium">Skills Graph</span>
+                      <Brain className="h-8 w-8 text-primary" />
+                      <span className="font-medium text-primary">Skills Graph</span>
                       <span className="text-sm text-muted-foreground text-center">
                         Explore your skill network
                       </span>
@@ -321,8 +321,8 @@ export default function Dashboard() {
                   
                   <Button asChild variant="outline" className="h-auto p-6">
                     <Link to="/trajectories" className="flex flex-col items-center space-y-2">
-                      <ArrowRight className="h-8 w-8" />
-                      <span className="font-medium">Career Paths</span>
+                      <ArrowRight className="h-8 w-8 text-primary" />
+                      <span className="font-medium text-primary">Career Paths</span>
                       <span className="text-sm text-muted-foreground text-center">
                         Discover opportunities
                       </span>
@@ -331,8 +331,8 @@ export default function Dashboard() {
                   
                   <Button asChild variant="outline" className="h-auto p-6">
                     <Link to="/portfolio" className="flex flex-col items-center space-y-2">
-                      <FileText className="h-8 w-8" />
-                      <span className="font-medium">Portfolio</span>
+                      <FileText className="h-8 w-8 text-primary" />
+                      <span className="font-medium text-primary">Portfolio</span>
                       <span className="text-sm text-muted-foreground text-center">
                         View your work
                       </span>
