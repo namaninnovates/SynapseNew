@@ -128,7 +128,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   }
   /* Ensure consistent font family across common elements */
   :where(h1,h2,h3,h4,h5,h6,p,button,input,textarea,a,li,label,small) {
