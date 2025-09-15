@@ -430,7 +430,7 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 * i }}
-                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-sm hover:-translate-y-1.5 hover:shadow-xl hover:shadow-purple-500/10`}
+                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-sm hover:-translate-y-1.5 hover:shadow-xl hover:shadow-purple-500/10 dark:border-white/10 dark:bg-gradient-to-br dark:from-zinc-800/60 dark:to-zinc-800/40`}
               >
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0.9 }}
@@ -501,7 +501,7 @@ export default function Landing() {
                       <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
                     </div>
                   </div>
-                  <div className="rounded-xl bg-white p-5 ring-1 ring-black/5 shadow-sm">
+                  <div className="rounded-xl bg-white dark:bg-zinc-900 p-5 ring-1 ring-black/5 dark:ring-white/10 shadow-sm">
                     <h4 className="text-lg font-semibold">{step.label}</h4>
                     <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
                   </div>
