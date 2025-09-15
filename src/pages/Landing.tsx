@@ -155,7 +155,7 @@ export default function Landing() {
     <div className={`min-h-screen relative overflow-x-hidden ${showCursor ? "cursor-none" : ""}`}>
       {/* Subtle page background gradient */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f5f9ff] via-white to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f5f9ff] via-white to-white dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-950" />
         {/* Abstract glow shapes */}
         <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 blur-3xl" />
         <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-gradient-to-br from-cyan-300/20 via-indigo-300/20 to-purple-300/20 blur-3xl" />
@@ -181,7 +181,7 @@ export default function Landing() {
         <span id="top" className="absolute -top-24" />
         {/* background wave */}
         <svg
-          className="absolute -z-10 -top-10 right-0 h-[420px] w-[900px] opacity-40 text-indigo-50"
+          className="absolute -z-10 -top-10 right-0 h-[420px] w-[900px] opacity-40 text-indigo-50 dark:text-indigo-900/40"
           viewBox="0 0 900 600"
           fill="none"
         >
@@ -205,7 +205,7 @@ export default function Landing() {
                 initial={{ scale: 0.9, rotate: -4, opacity: 0 }}
                 animate={{ scale: 1, rotate: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 160, damping: 14 }}
-                className="inline-flex items-center justify-center p-4 rounded-2xl bg-white/80 shadow-sm ring-1 ring-black/5 backdrop-blur-sm"
+                className="inline-flex items-center justify-center p-4 rounded-2xl bg-white/80 dark:bg-white/10 shadow-sm ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-sm"
               >
                 <Brain className="h-12 w-12 text-[#4285F4]" />
               </motion.div>
@@ -308,15 +308,15 @@ export default function Landing() {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-3xl border p-6 md:p-8 shadow-sm"
+              className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/20 dark:via-zinc-900/20 dark:to-purple-900/20 rounded-3xl border dark:border-white/10 p-6 md:p-8 shadow-sm"
             >
               {/* Gradient orb */}
               <div className="absolute -top-6 -left-6 h-28 w-28 rounded-full bg-gradient-to-br from-indigo-400/30 to-purple-400/30 blur-2xl" />
               <div className="absolute -bottom-10 -right-6 h-32 w-32 rounded-full bg-gradient-to-br from-pink-400/20 to-amber-300/20 blur-2xl" />
 
               {/* Central abstract panel */}
-              <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white ring-1 ring-black/5 p-6 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 via-purple-100 to-pink-100 opacity-50" />
+              <div className="relative z-10 aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 p-6 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 via-purple-100 to-pink-100 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 opacity-50" />
                 <div className="relative grid place-items-center">
                   <motion.div
                     initial={{ scale: 0.95, rotate: 0 }}
@@ -345,7 +345,7 @@ export default function Landing() {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                     <Laptop className="h-5 w-5 text-purple-600" />
                   </div>
                 </motion.div>
@@ -355,7 +355,7 @@ export default function Landing() {
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                     <PenTool className="h-5 w-5 text-pink-600" />
                   </div>
                 </motion.div>
@@ -365,7 +365,7 @@ export default function Landing() {
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                     <Briefcase className="h-5 w-5 text-indigo-600" />
                   </div>
                 </motion.div>
@@ -375,7 +375,7 @@ export default function Landing() {
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/70 ring-1 ring-black/5 grid place-items-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/70 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                     <FileText className="h-5 w-5 text-amber-600" />
                   </div>
                 </motion.div>
@@ -573,11 +573,11 @@ export default function Landing() {
           >
             <div
               data-parallax
-              className="relative rounded-3xl border bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
+              className="relative rounded-3xl border dark:border-white/10 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/20 dark:via-zinc-900/20 dark:to-purple-900/20 p-6 md:p-8 overflow-hidden will-change-transform transition-transform duration-200"
             >
               <div className="absolute -top-12 -left-8 h-40 w-40 rounded-full bg-gradient-to-tr from-indigo-300/30 to-purple-300/30 blur-2xl" />
               <div className="absolute -bottom-10 -right-8 h-44 w-44 rounded-full bg-gradient-to-tr from-pink-300/30 to-amber-300/30 blur-2xl" />
-              <div className="relative aspect-[4/3] rounded-2xl bg-white ring-1 ring-black/5 grid place-items-center">
+              <div className="relative aspect-[4/3] rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-black/5 dark:ring-white/10 grid place-items-center">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
