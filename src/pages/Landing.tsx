@@ -47,7 +47,7 @@ export default function Landing() {
     <div className={`min-h-screen relative overflow-x-hidden`}>
       {/* Prism background with soft overlay, content sits above */}
       <BackgroundAurora animationType="3drotate" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/40 pointer-events-none" />
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
       {/* Hero Section */}
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <span id="top" className="absolute -top-24" />
