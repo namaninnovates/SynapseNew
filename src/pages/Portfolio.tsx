@@ -28,7 +28,7 @@ export default function Portfolio() {
   const completedProjects = projects?.filter(p => p.status === "completed") || [];
 
   return (
-    <div className="min-h-screen pt-20 pb-12">
+    <div className="min-h-screen pt-20 pb-12 mt-[100px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
