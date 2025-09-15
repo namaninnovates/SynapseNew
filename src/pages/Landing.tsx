@@ -96,12 +96,12 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.12 }}
-                className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-3 mx-auto font-semibold"
+                className="text-lg md:text-xl text-white max-w-2xl mb-3 mx-auto font-semibold"
                 style={{
                   textShadow: `
-                    0 0 6px hsl(${hue} 90% 70% / 0.18),
-                    0 0 12px hsl(${(hue + 60) % 360} 90% 70% / 0.14),
-                    0 0 18px hsl(${(hue + 120) % 360} 90% 70% / 0.12)
+                    0 0 10px hsl(${hue} 90% 70% / 0.35),
+                    0 0 22px hsl(${(hue + 60) % 360} 90% 70% / 0.25),
+                    0 0 36px hsl(${(hue + 120) % 360} 90% 72% / 0.20)
                   `,
                 }}
               >
