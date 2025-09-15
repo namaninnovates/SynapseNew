@@ -17,6 +17,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -28,6 +29,13 @@ export function Navbar() {
     const initial = stored === "dark" || (!stored && prefersDark) ? "dark" : "light";
     setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const toggleTheme = () => {
@@ -44,214 +52,225 @@ export function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className="sticky top-0 z-50 border-b border-white/20 dark:border-white/10 backdrop-blur-xl backdrop-saturate-150 bg-transparent supports-[backdrop-filter]:bg-transparent shadow-none"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="sticky top-0 z-50 bg-transparent"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-        <div className="flex items-center h-16 md:grid md:grid-cols-[auto_1fr_auto]">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold tracking-tight">Synapse</span>
-          </Link>
+      {/* Pill-shaped, centered container with margins and soft shadow */}
+      <div
+        className={[
+          "pointer-events-none px-4 sm:px-6 lg:px-8", // horizontal breathing
+          "mt-6", // margin from top
+        ].join(" ")}
+      >
+        <div
+          className={[
+            "pointer-events-auto mx-auto max-w-6xl",
+            "rounded-full",
+            "backdrop-blur-xl backdrop-saturate-150",
+            "bg-white/30 dark:bg-white/10",
+            "ring-[1.5px] ring-purple-500 dark:ring-purple-600",
+            "shadow-lg shadow-black/10 dark:shadow-black/40",
+            "transition-all duration-300",
+            scrolled ? "scale-[0.98] backdrop-blur-2xl" : "",
+          ].join(" ")}
+        >
+          <div className="px-4 sm:px-5">
+            <div className="h-14 flex items-center justify-between">
+              {/* Left: Logo + Text */}
+              <Link to="/" className="flex items-center gap-2">
+                <Brain className="h-6 w-6 text-primary" />
+                <span className="text-lg font-semibold tracking-tight">Synapse</span>
+              </Link>
 
-          {/* Center scrollable tabs (desktop) */}
-          <div className="hidden md:flex justify-center">
-            <div className="overflow-x-auto no-scrollbar max-w-3xl">
-              <div className="flex gap-2 py-2 px-1">
+              {/* Right: Nav items + controls (desktop) */}
+              <div className="hidden md:flex items-center gap-4">
+                <nav className="flex items-center gap-1">
+                  {[
+                    { label: "Home", href: "/#top" },
+                    { label: "Why Synapse", href: "/#why-synapse" },
+                    { label: "How It Works", href: "/#how-it-works" },
+                    { label: "Story", href: "/#story" },
+                  ].map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="px-3 py-1.5 text-sm font-medium rounded-full text-foreground/90 hover:text-foreground transition group"
+                    >
+                      <span className="inline-block group-hover:scale-[1.02] transition">
+                        {item.label}
+                      </span>
+                      <span className="block h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded bg-primary/70 mt-1 mx-auto" />
+                    </a>
+                  ))}
+                </nav>
+
+                {/* Theme toggle */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4 text-yellow-400" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-indigo-600" />
+                  )}
+                </Button>
+
+                {/* Profile */}
+                {isAuthenticated ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-9 px-2 rounded-full">
+                        <Avatar className="h-7 w-7">
+                          <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "Profile"} />
+                          <AvatarFallback className="text-xs">
+                            {(user?.name?.[0] ?? "U").toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-44">
+                      <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate("/portfolio")}>
+                        Portfolio
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={async () => {
+                          await signOut();
+                          navigate("/");
+                        }}
+                      >
+                        Sign Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => navigate("/auth")}
+                    className="h-9 w-9 rounded-full"
+                    title="Sign in"
+                  >
+                    <User className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
+              {/* Mobile controls inside pill */}
+              <div className="md:hidden flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/20"
+                  title="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4 text-yellow-400" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-indigo-600" />
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="h-9 w-9 rounded-full"
+                  title="Menu"
+                >
+                  {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile slide-out panel */}
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-white/20 dark:border-white/10 bg-background/90 backdrop-blur-sm rounded-b-full"
+            >
+              <div className="px-4 pt-2 pb-4 space-y-1">
                 <a
                   href="/#top"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                  className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Home
                 </a>
                 <a
                   href="/#why-synapse"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                  className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Why Synapse
                 </a>
                 <a
                   href="/#how-it-works"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                  className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   How It Works
                 </a>
                 <a
                   href="/#story"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border bg-white/40 dark:bg-white/10 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/20 transition-colors"
+                  className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Story
                 </a>
+
+                {isAuthenticated ? (
+                  <>
+                    <a
+                      href="/dashboard"
+                      className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Dashboard
+                    </a>
+                    <a
+                      href="/portfolio"
+                      className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Portfolio
+                    </a>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={async () => {
+                        await signOut();
+                        setMobileMenuOpen(false);
+                        navigate("/");
+                      }}
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <a
+                    href="/auth"
+                    className="block px-3 py-2 text-base font-medium hover:text-primary transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </a>
+                )}
               </div>
-            </div>
-          </div>
-
-          {/* Desktop Navigation (right) */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Dark mode toggle (only one, extreme right next to avatar) */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
-              title="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4 text-yellow-400" />
-              ) : (
-                <Moon className="h-4 w-4 text-indigo-600" />
-              )}
-            </Button>
-
-            {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-9 px-2">
-                    <Avatar className="h-7 w-7">
-                      <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "Profile"} />
-                      <AvatarFallback className="text-xs">
-                        {(user?.name?.[0] ?? "U").toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44">
-                  <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                    Dashboard
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/portfolio")}>
-                    Portfolio
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-destructive focus:text-destructive"
-                    onClick={async () => {
-                      await signOut();
-                      navigate("/");
-                    }}
-                  >
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate("/auth")}
-                className="h-9 w-9 rounded-full"
-                title="Sign in"
-              >
-                <User className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-
-          {/* Mobile controls */}
-          <div className="md:hidden flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="h-9 w-9 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-md hover:bg-white/50 dark:hover:bg-white/20"
-              title="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4 text-yellow-400" />
-              ) : (
-                <Moon className="h-4 w-4 text-indigo-600" />
-              )}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="h-9 w-9"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-          </div>
+            </motion.div>
+          )}
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t bg-background/95 backdrop-blur-sm"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <a
-                href="/#top"
-                className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </a>
-              <a
-                href="/#why-synapse"
-                className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Why Synapse
-              </a>
-              <a
-                href="/#how-it-works"
-                className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                How It Works
-              </a>
-              <a
-                href="/#story"
-                className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Story
-              </a>
-
-              {isAuthenticated ? (
-                <>
-                  <a
-                    href="/dashboard"
-                    className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Dashboard
-                  </a>
-                  <a
-                    href="/portfolio"
-                    className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Portfolio
-                  </a>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={async () => {
-                      await signOut();
-                      setMobileMenuOpen(false);
-                      navigate("/");
-                    }}
-                  >
-                    Sign Out
-                  </Button>
-                </>
-              ) : (
-                <a
-                  href="/auth"
-                  className="block px-3 py-2 text-base font-medium hover:text-primary transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign In
-                </a>
-              )}
-            </div>
-          </motion.div>
-        )}
       </div>
     </motion.nav>
   );
