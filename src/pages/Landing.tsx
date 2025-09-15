@@ -51,7 +51,7 @@ export default function Landing() {
       {/* Wrap scrolling content so it stays above the fixed background/overlay */}
       <div className="relative z-20">
         {/* Hero Section */}
-        <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center">
+        <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center min-h-[70vh] grid place-items-center">
           <span id="top" className="absolute -top-24" />
           <div className="max-w-4xl mx-auto grid grid-cols-1 gap-10 items-center justify-items-center justify-center">
             {/* Left: Text */}
@@ -112,8 +112,9 @@ export default function Landing() {
                 {isAuthenticated ? (
                   <Button
                     asChild
+                    variant="ghost"
                     size="lg"
-                    className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                    className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40"
                   >
                     <Link to="/dashboard">
                       {user?.onboardingCompleted ? "Dashboard" : "Complete Setup"}
@@ -124,8 +125,9 @@ export default function Landing() {
                   <>
                     <Button
                       asChild
+                      variant="ghost"
                       size="lg"
-                      className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
+                      className="relative overflow-hidden text-base md:text-lg px-8 py-6 rounded-xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md text-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-all hover:from-white/20 hover:to-white/10 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white/40"
                     >
                       <Link to="/auth">
                         Get Started Free
