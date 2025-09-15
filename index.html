@@ -20,6 +20,15 @@
       document.documentElement.classList.toggle("dark", shouldDark);
     } catch (_) {}
   </script>
+  <!-- Force Dark Mode globally -->
+  <script>
+    (function () {
+      try {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 
