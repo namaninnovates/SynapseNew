@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
-import { Brain, Menu, User, X, Moon, Sun } from "lucide-react";
+import { Menu, User, X, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,6 +11,52 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+function SynapseMark({ className = "" }: { className?: string }) {
+  // Minimal AI + growth glyph: connected nodes + upward arrow with gradient stroke
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="img"
+      fill="none"
+    >
+      <defs>
+        <linearGradient id="synapseGrad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="hsl(260 90% 60%)" />
+          <stop offset="50%" stopColor="hsl(290 90% 60%)" />
+          <stop offset="100%" stopColor="hsl(210 90% 60%)" />
+        </linearGradient>
+      </defs>
+      {/* Neural nodes */}
+      <circle cx="6" cy="12" r="1.4" stroke="url(#synapseGrad)" strokeWidth="1.5" />
+      <circle cx="12" cy="7" r="1.4" stroke="url(#synapseGrad)" strokeWidth="1.5" />
+      <circle cx="12" cy="17" r="1.4" stroke="url(#synapseGrad)" strokeWidth="1.5" />
+      <circle cx="18" cy="12" r="1.4" stroke="url(#synapseGrad)" strokeWidth="1.5" />
+      {/* Connections */}
+      <path d="M7.4 11.2 L10.6 8.2" stroke="url(#synapseGrad)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M7.4 12.8 L10.6 15.8" stroke="url(#synapseGrad)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M13.4 8.8 L16.6 11.8" stroke="url(#synapseGrad)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M13.4 15.2 L16.6 12.2" stroke="url(#synapseGrad)" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Upward growth arrow */}
+      <path
+        d="M5 17 L11 11 L13.5 13.5 L19 8"
+        stroke="url(#synapseGrad)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M17.5 8 H19 V9.5"
+        stroke="url(#synapseGrad)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export function Navbar() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -91,7 +137,7 @@ export function Navbar() {
             <div className="h-14 flex items-center justify-between">
               {/* Left: Logo + Text */}
               <Link to="/" className="flex items-center gap-2">
-                <Brain className="h-6 w-6 text-primary" />
+                <SynapseMark className="h-6 w-6" />
                 <span className="text-lg font-semibold tracking-tight">Synapse</span>
               </Link>
 
