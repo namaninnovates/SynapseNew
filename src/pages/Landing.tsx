@@ -486,12 +486,12 @@ export default function Landing() {
               />
 
               {/* Arrow controls (desktop only) */}
-              <div className="hidden md:flex items-center justify-between absolute inset-y-0 left-0 right-0">
+              <div className="hidden md:flex items-center justify-between absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[300px] pointer-events-none px-2">
                 <Button
                   variant="outline"
                   size="icon"
                   onClick={() => scrollByCards(-1)}
-                  className="rounded-full bg-background/60 backdrop-blur-md border-white/20"
+                  className="pointer-events-auto h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border-white/20"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </Button>
@@ -499,7 +499,7 @@ export default function Landing() {
                   variant="outline"
                   size="icon"
                   onClick={() => scrollByCards(1)}
-                  className="rounded-full bg-background/60 backdrop-blur-md border-white/20"
+                  className="pointer-events-auto h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border-white/20"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </Button>
