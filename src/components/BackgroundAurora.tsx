@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Renderer, Triangle, Program, Mesh } from "ogl";
 import "@/components/ui/Prism.css";
+
 type AnimationType = "hover" | "3drotate" | "rotate";
 
 // Implement the provided prism effect as a background
@@ -63,7 +64,8 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
       width: "100%",
       height: "100%",
       display: "block",
-    });
+      pointerEvents: "none",
+    } as CSSStyleDeclaration);
 
     container.appendChild(gl.canvas as unknown as Node);
 
@@ -418,5 +420,5 @@ export default function BackgroundAurora({ animationType = "rotate" }: { animati
     suspendWhenOffscreen,
   ]);
 
-  return <div className="prism-container absolute inset-0 -z-10" ref={containerRef} />;
+  return <div className="prism-container absolute inset-0 -z-30 pointer-events-none" ref={containerRef} />;
 }
