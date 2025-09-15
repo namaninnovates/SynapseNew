@@ -18,6 +18,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [scrolled, setScrolled] = useState(false);
+  const [hue, setHue] = useState(265);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -36,6 +37,13 @@ export function Navbar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHue((h) => (h + 1) % 360);
+    }, 40);
+    return () => clearInterval(id);
   }, []);
 
   const toggleTheme = () => {
@@ -59,8 +67,8 @@ export function Navbar() {
       {/* Pill-shaped, centered container with margins and soft shadow */}
       <div
         className={[
-          "pointer-events-none px-4 sm:px-6 lg:px-8", // horizontal breathing
-          "mt-6", // margin from top
+          "pointer-events-none px-6 sm:px-10 lg:px-16",
+          "mt-10",
         ].join(" ")}
       >
         <div
@@ -69,11 +77,15 @@ export function Navbar() {
             "rounded-full",
             "backdrop-blur-xl backdrop-saturate-150",
             "bg-white/30 dark:bg-white/10",
-            "ring-[1.5px] ring-purple-500 dark:ring-purple-600",
             "shadow-lg shadow-black/10 dark:shadow-black/40",
             "transition-all duration-300",
             scrolled ? "scale-[0.98] backdrop-blur-2xl" : "",
+            "border",
           ].join(" ")}
+          style={{
+            borderWidth: 1.5,
+            borderColor: `hsl(${hue} 90% ${theme === "dark" ? "55%" : "60%"})`,
+          }}
         >
           <div className="px-4 sm:px-5">
             <div className="h-14 flex items-center justify-between">
