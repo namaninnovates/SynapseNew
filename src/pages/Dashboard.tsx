@@ -92,7 +92,7 @@ export default function Dashboard() {
                   {user.linkedinConnected ? (
                     <div className="text-green-600 font-medium">✓ Complete</div>
                   ) : (
-                    <Button size="sm">Connect</Button>
+                    <Button size="sm" variant="secondary">Connect</Button>
                   )}
                 </div>
 
@@ -107,7 +107,7 @@ export default function Dashboard() {
                   {user.resumeUploaded ? (
                     <div className="text-green-600 font-medium">✓ Complete</div>
                   ) : (
-                    <Button size="sm">Upload</Button>
+                    <Button size="sm" variant="secondary">Upload</Button>
                   )}
                 </div>
 
@@ -122,13 +122,13 @@ export default function Dashboard() {
                   {user.videoUploaded ? (
                     <div className="text-green-600 font-medium">✓ Complete</div>
                   ) : (
-                    <Button size="sm">Record</Button>
+                    <Button size="sm" variant="secondary">Record</Button>
                   )}
                 </div>
               </div>
 
               <div className="pt-4">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full" variant="secondary">
                   <Link to="/onboarding">Continue Setup</Link>
                 </Button>
               </div>
@@ -178,7 +178,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       {skills?.length} skills identified
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full" variant="secondary">
                       <Link to="/skills">View Skills Graph</Link>
                     </Button>
                   </div>
@@ -187,7 +187,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       Generate your personalized skills profile
                     </p>
-                    <Button onClick={handleGenerateSkills} className="w-full">
+                    <Button onClick={handleGenerateSkills} className="w-full" variant="secondary">
                       Analyze My Skills
                     </Button>
                   </div>
@@ -215,7 +215,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       {trajectories?.length} paths discovered
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full" variant="secondary">
                       <Link to="/trajectories">Explore Paths</Link>
                     </Button>
                   </div>
@@ -224,7 +224,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       Generate career paths based on your skills
                     </p>
-                    <Button onClick={handleGenerateTrajectories} className="w-full">
+                    <Button onClick={handleGenerateTrajectories} className="w-full" variant="secondary">
                       Generate Trajectories
                     </Button>
                   </div>
@@ -233,7 +233,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       Complete skills analysis first
                     </p>
-                    <Button disabled className="w-full">
+                    <Button disabled className="w-full" variant="secondary">
                       Generate Trajectories
                     </Button>
                   </div>
@@ -261,7 +261,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       {projects.filter(p => p.status !== "completed").length} active projects
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full" variant="secondary">
                       <Link to="/projects">View Projects</Link>
                     </Button>
                   </div>
@@ -270,7 +270,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       Start your first career simulation
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full" variant="secondary">
                       <Link to="/trajectories">
                         <Play className="h-4 w-4 mr-2" />
                         Start Simulation
@@ -282,7 +282,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">
                       Generate trajectories to start projects
                     </p>
-                    <Button disabled className="w-full">
+                    <Button disabled className="w-full" variant="secondary">
                       Start Simulation
                     </Button>
                   </div>
@@ -329,7 +329,7 @@ export default function Dashboard() {
                     </Link>
                   </Button>
                   
-                  <Button asChild className="h-auto p-6">
+                  <Button asChild variant="outline" className="h-auto p-6">
                     <Link to="/portfolio" className="flex flex-col items-center space-y-2">
                       <FileText className="h-8 w-8" />
                       <span className="font-medium">Portfolio</span>
