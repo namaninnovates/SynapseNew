@@ -54,9 +54,6 @@ export default function Landing() {
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden`}>
-      {/* Prism background with soft overlay, content sits above */}
-      <BackgroundAurora animationType="3drotate" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
       {/* Wrap scrolling content so it stays above the fixed background/overlay */}
       <div className="relative z-20">
         {/* Hero Section */}

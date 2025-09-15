@@ -18,6 +18,7 @@ import Projects from "./pages/Projects.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
 import { Navbar } from "./components/Navbar.tsx";
 import "./types/global.d.ts";
+import BackgroundAurora from "@/components/BackgroundAurora";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
@@ -51,18 +52,24 @@ createRoot(document.getElementById("root")!).render(
       <ConvexAuthProvider client={convex}>
         <BrowserRouter>
           <RouteSyncer />
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/auth" element={<AuthPage redirectAfterAuth="/dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/trajectories" element={<Trajectories />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="min-h-screen relative overflow-x-hidden">
+            <BackgroundAurora animationType="3drotate" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
+            <div className="relative z-20">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/auth" element={<AuthPage redirectAfterAuth="/dashboard" />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/skills" element={<Skills />} />
+                <Route path="/trajectories" element={<Trajectories />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </div>
         </BrowserRouter>
         <Toaster />
       </ConvexAuthProvider>
