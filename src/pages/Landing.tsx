@@ -22,21 +22,6 @@ import { Prism } from "@/components/ui/prism";
 export default function Landing() {
   const { isAuthenticated, user } = useAuth();
 
-  // Custom cursor state
-  const [showCursor, setShowCursor] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isDown, setIsDown] = useState(false);
-  const [overInteractive, setOverInteractive] = useState(false);
-
-  // Add RGB trail state
-  const [trail, setTrail] = useState<Array<{ x: number; y: number; t: number }>>([]);
-
-  // Add refs for smoother cursor interpolation and trail timing
-  const targetPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const rafRef = useRef<number | null>(null);
-  const lastTrailTimeRef = useRef(0);
-  const TRAIL_LEN = 16; // reduce points for better performance
-
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
   const fullQuote =
@@ -55,181 +40,21 @@ export default function Landing() {
     return () => clearInterval(id);
   }, []);
 
-  // Initialize custom cursor only on fine pointers (desktop/laptop)
-  useEffect(() => {
-    const isFinePointer =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(pointer: fine)").matches;
-
-    if (!isFinePointer) {
-      setShowCursor(false);
-      return;
-    }
-
-    setShowCursor(true);
-
-    const handleMove = (e: MouseEvent) => {
-      // Only update target position; animation loop will lerp and update state
-      targetPosRef.current = { x: e.clientX, y: e.clientY };
-    };
-    const handleDown = () => setIsDown(true);
-    const handleUp = () => setIsDown(false);
-    const handleOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      const interactive = target?.closest?.(
-        "a,button,[role='button'],input,textarea,select,label"
-      );
-      setOverInteractive(!!interactive);
-    };
-
-    // Start animation loop for smooth cursor + timed trail updates
-    const animate = () => {
-      setCursorPos((prev) => {
-        const tx = targetPosRef.current.x;
-        const ty = targetPosRef.current.y;
-        // Lerp for fluid motion
-        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-        const nx = lerp(prev.x, tx, 0.2);
-        const ny = lerp(prev.y, ty, 0.2);
-
-        // Trail: push at a fixed cadence for consistent length/smoothness
-        const now = performance.now();
-        if (now - lastTrailTimeRef.current > 16) {
-          setTrail((prevTrail) => {
-            const next = [...prevTrail, { x: nx, y: ny, t: Date.now() }];
-            return next.slice(-TRAIL_LEN);
-          });
-          lastTrailTimeRef.current = now;
-        }
-
-        return { x: nx, y: ny };
-      });
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-
-    document.addEventListener("mousemove", handleMove);
-    document.addEventListener("mousedown", handleDown);
-    document.addEventListener("mouseup", handleUp);
-    document.addEventListener("mouseover", handleOver);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      document.removeEventListener("mousemove", handleMove);
-      document.removeEventListener("mousedown", handleDown);
-      document.removeEventListener("mouseup", handleUp);
-      document.removeEventListener("mouseover", handleOver);
-    };
-  }, []);
-
-  const triggerRipple = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const target = e.currentTarget as HTMLButtonElement;
-    const rect = target.getBoundingClientRect();
-    const ripple = document.createElement("span");
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.position = "absolute";
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-    ripple.style.borderRadius = "9999px";
-    ripple.style.background = "rgba(255,255,255,0.45)";
-    ripple.style.transform = "scale(0)";
-    ripple.style.opacity = "0.9";
-    ripple.style.pointerEvents = "none";
-    ripple.style.transition = "transform 600ms ease-out, opacity 600ms ease-out";
-    target.style.position = "relative";
-    target.style.overflow = "hidden";
-    target.appendChild(ripple);
-    requestAnimationFrame(() => {
-      ripple.style.transform = "scale(2.5)";
-      ripple.style.opacity = "0";
-    });
-    setTimeout(() => ripple.remove(), 650);
-  };
-
-  const triggerConfetti = (x: number, y: number) => {
-    const colors = ["#6366F1", "#A855F7", "#EC4899", "#22C55E", "#F59E0B"];
-    for (let i = 0; i < 16; i++) {
-      const dot = document.createElement("span");
-      dot.style.position = "fixed";
-      dot.style.left = `${x}px`;
-      dot.style.top = `${y}px`;
-      dot.style.width = dot.style.height = `${6 + Math.random() * 6}px`;
-      dot.style.borderRadius = "9999px";
-      dot.style.background = colors[i % colors.length];
-      dot.style.pointerEvents = "none";
-      dot.style.opacity = "0.9";
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 40 + Math.random() * 60;
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
-      dot.style.transform = "translate(0,0)";
-      dot.style.transition = "transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease-out";
-      document.body.appendChild(dot);
-      requestAnimationFrame(() => {
-        dot.style.transform = `translate(${tx}px, ${ty}px)`;
-        dot.style.opacity = "0";
-      });
-      setTimeout(() => dot.remove(), 800);
-    }
-  };
-
-  const handleCTA = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    triggerRipple(e);
-    triggerConfetti(e.clientX, e.clientY);
-  };
-
+  // Smooth scroll to the "How It Works" section
   const scrollToHowItWorks = () => {
     const el = document.getElementById("how-it-works");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.location.hash = "#how-it-works";
+    }
   };
 
-  // Sizes for cursor elements
-  const dotSize = isDown ? 10 : 8;
-  const ringSize = overInteractive ? 48 : isDown ? 36 : 32;
-
   return (
-    <div className={`min-h-screen relative overflow-x-hidden ${showCursor ? "cursor-none" : ""}`}>
-      {/* Subtle page background gradient */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f5f9ff] via-white to-white dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-950" />
-        {/* Abstract glow shapes */}
-        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 blur-3xl" />
-        <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-gradient-to-br from-cyan-300/20 via-indigo-300/20 to-purple-300/20 blur-3xl" />
-        {/* Dynamic gradient blobs for liveliness */}
-        <motion.div
-          aria-hidden
-          initial={{ x: -60, y: 0, opacity: 0.35 }}
-          animate={{ x: [ -60, 40, -60 ], y: [0, -20, 0], opacity: [0.35, 0.5, 0.35] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-1/4 top-10 h-64 w-64 rounded-full bg-gradient-to-tr from-indigo-300/30 via-purple-300/30 to-pink-300/30 blur-3xl"
-        />
-        <motion.div
-          aria-hidden
-          initial={{ x: 40, y: 20, opacity: 0.35 }}
-          animate={{ x: [ 40, -50, 40 ], y: [20, 0, 20], opacity: [0.35, 0.5, 0.35] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-1/4 bottom-24 h-72 w-72 rounded-full bg-gradient-to-tr from-pink-300/25 via-amber-300/25 to-indigo-300/25 blur-3xl"
-        />
-      </div>
-
+    <div className={`min-h-screen relative overflow-x-hidden`}>
       {/* Hero Section */}
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <span id="top" className="absolute -top-24" />
-        {/* background wave */}
-        <svg
-          className="absolute -z-10 -top-10 right-0 h-[420px] w-[900px] opacity-40 text-indigo-50 dark:text-indigo-900/40"
-          viewBox="0 0 900 600"
-          fill="none"
-        >
-          <path
-            d="M0,300 C150,200 300,400 450,300 C600,200 750,300 900,200 L900,600 L0,600 Z"
-            fill="currentColor"
-          />
-        </svg>
-
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left: Text */}
           <div>
@@ -307,7 +132,6 @@ export default function Landing() {
                 <Button
                   asChild
                   size="lg"
-                  onClick={handleCTA}
                   className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
                 >
                   <Link to="/dashboard">
@@ -320,7 +144,6 @@ export default function Landing() {
                   <Button
                     asChild
                     size="lg"
-                    onClick={handleCTA}
                     className="relative overflow-hidden text-base md:text-lg px-8 py-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-[0_0_40px] hover:shadow-purple-500/30 transition-shadow"
                   >
                     <Link to="/auth">
@@ -707,67 +530,6 @@ export default function Landing() {
           </div>
         </div>
       </footer>
-
-      {/* Custom Cursor Overlay */}
-      {showCursor && (
-        <div className="pointer-events-none fixed inset-0 z-50">
-          {/* RGB Trail */}
-          {trail.map((p, i) => {
-            const factor = (i + 1) / (trail.length || 1); // 0..1
-            const size = 10 + factor * 12; // grow slightly for newer points
-            const hue = Math.round(factor * 360); // hue across trail
-            const opacity = 0.16 + factor * 0.24; // newer points brighter
-            return (
-              <motion.div
-                key={`${p.t}-${i}`}
-                aria-hidden
-                className="fixed top-0 left-0 rounded-full blur-[2px] mix-blend-screen"
-                style={{
-                  width: size,
-                  height: size,
-                  background: `hsl(${hue} 90% 60%)`,
-                }}
-                animate={{
-                  x: p.x - size / 2,
-                  y: p.y - size / 2,
-                  opacity,
-                  scale: 1,
-                }}
-                transition={{
-                  // Use a short tween for smoother, consistent motion
-                  duration: 0.18,
-                  ease: "easeOut",
-                }}
-              />
-            );
-          })}
-
-          {/* Gradient dot */}
-          <motion.div
-            aria-hidden
-            className="fixed top-0 left-0 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_20px_rgba(99,102,241,0.35)]"
-            style={{ width: dotSize, height: dotSize }}
-            animate={{
-              x: cursorPos.x - dotSize / 2,
-              y: cursorPos.y - dotSize / 2,
-              scale: overInteractive ? 1.2 : 1,
-            }}
-            transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.4 }}
-          />
-          {/* Glassy ring */}
-          <motion.div
-            aria-hidden
-            className="fixed top-0 left-0 rounded-full border border-indigo-400/50 shadow-[0_0_30px_rgba(79,70,229,0.25)] bg-transparent"
-            style={{ width: ringSize, height: ringSize }}
-            animate={{
-              x: cursorPos.x - ringSize / 2,
-              y: cursorPos.y - ringSize / 2,
-              scale: overInteractive ? 1.05 : 1,
-            }}
-            transition={{ type: "spring", stiffness: 220, damping: 24, mass: 0.7 }}
-          />
-        </div>
-      )}
     </div>
   );
 }
