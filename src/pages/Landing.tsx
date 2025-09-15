@@ -202,24 +202,9 @@ export default function Landing() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.05 * i }}
-                  // Outer: animated multicolor gradient border (fluid via hue animation)
-                  className="group relative rounded-2xl p-[2px] will-change-transform hover:-translate-y-1.5"
+                  // Outer container: no fill, just glow; the gradient border is drawn via a masked overlay below
+                  className="group relative rounded-2xl will-change-transform hover:-translate-y-1.5"
                   style={{
-                    background: `
-                      conic-gradient(
-                        from 0deg,
-                        hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 40) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 80) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 120) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 160) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 200) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 240) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 280) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${(hue + 320) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
-                        hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"})
-                      )
-                    `,
                     boxShadow: `
                       0 0 22px hsl(${hue} 90% 68% / 0.28),
                       0 0 44px hsl(${(hue + 60) % 360} 90% 70% / 0.22),
@@ -227,8 +212,36 @@ export default function Landing() {
                     `,
                   }}
                 >
-                  {/* Inner panel: transparent glass (no fill), subtle inner ring for depth */}
-                  <div className="relative rounded-[1rem] md:rounded-[1rem] p-8 min-h-48 md:min-h-56 bg-transparent backdrop-blur-xl ring-1 ring-white/40 dark:ring-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+                  {/* Masked gradient border layer: renders ONLY the outline, no interior fill */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-[1rem]"
+                    style={{
+                      padding: "2px",
+                      background: `
+                        conic-gradient(
+                          from 0deg,
+                          hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 40) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 80) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 120) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 160) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 200) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 240) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 280) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${(hue + 320) % 360} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"}),
+                          hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "60%" : "65%"})
+                        )
+                      `,
+                      WebkitMask:
+                        "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                      WebkitMaskComposite: "xor",
+                      maskComposite: "exclude",
+                      borderRadius: "1rem",
+                    } as React.CSSProperties}
+                  />
+                  {/* Inner panel: transparent glass with subtle inner ring; no color fill */}
+                  <div className="relative rounded-[1rem] p-8 min-h-48 md:min-h-56 bg-transparent backdrop-blur-xl ring-1 ring-white/40 dark:ring-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
                     <div className="text-3xl">
                       <item.Icon className="h-8 w-8 text-white/90" strokeWidth={2.5} />
                     </div>
