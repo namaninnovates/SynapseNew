@@ -7,6 +7,9 @@ import {
   Brain,
   Rocket,
   Users,
+  Lightbulb,
+  Gamepad2,
+  FolderKanban,
 } from "lucide-react";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
@@ -17,6 +20,7 @@ export default function Landing() {
 
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
+  const [hue, setHue] = useState(265);
   const fullQuote =
     "“I felt stuck—too many choices, no clear direction. Synapse helped me test-drive product roles through real simulations. I discovered what I'm great at and built a portfolio I'm proud of. I went from confused to confident.”";
 
@@ -30,6 +34,11 @@ export default function Landing() {
         setTypingDone(true);
       }
     }, 18);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setHue((h) => (h + 1) % 360), 40);
     return () => clearInterval(id);
   }, []);
 
@@ -154,7 +163,7 @@ export default function Landing() {
         {/* Why Synapse */}
         <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
           <span id="why-synapse" className="block -mt-24 pt-24" />
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {/* Scroll-reveal header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -173,21 +182,18 @@ export default function Landing() {
               {[
                 {
                   title: "Discover",
-                  emoji: "💡",
+                  Icon: Lightbulb,
                   desc: "Uncover your strengths with AI-powered skill analysis.",
-                  bg: "from-sky-50 to-indigo-50",
                 },
                 {
                   title: "Simulate",
-                  emoji: "🎮",
+                  Icon: Gamepad2,
                   desc: "Test-drive careers through micro-internships that feel real.",
-                  bg: "from-violet-50 to-fuchsia-50",
                 },
                 {
                   title: "Build Portfolio",
-                  emoji: "📂",
+                  Icon: FolderKanban,
                   desc: "Showcase your work and unlock opportunities with confidence.",
-                  bg: "from-emerald-50 to-teal-50",
                 },
               ].map((item, i) => (
                 <motion.div
@@ -196,21 +202,19 @@ export default function Landing() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.05 * i }}
-                  className={`group relative rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-xl p-6 transition will-change-transform hover:-translate-y-1.5 hover:shadow-md`}
+                  className="group relative rounded-2xl border bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 min-h-48 md:min-h-56 flex flex-col justify-center transition will-change-transform hover:-translate-y-1.5"
+                  style={{
+                    borderColor: `hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "55%" : "60%"})`,
+                    boxShadow: `
+                      inset 0 0 0 1.5px hsl(${hue} 90% ${document.documentElement.classList.contains("dark") ? "58%" : "62%"} / 0.9),
+                      0 0 12px hsl(${hue} 90% 68% / 0.35),
+                      0 0 36px hsl(${hue} 90% 70% / 0.22)
+                    `,
+                  }}
                 >
-                  <motion.div
-                    initial={{ scale: 0.95, opacity: 0.9 }}
-                    whileHover={
-                      item.emoji === "💡"
-                        ? { scale: 1.05, filter: "brightness(1.05)" }
-                        : item.emoji === "🎮"
-                        ? { y: [-2, 2, -2], transition: { repeat: Infinity, duration: 1.2 } }
-                        : { rotate: [0, -3, 3, 0], transition: { duration: 0.8 } }
-                    }
-                    className="text-3xl"
-                  >
-                    {item.emoji}
-                  </motion.div>
+                  <div className="text-3xl">
+                    <item.Icon className="h-8 w-8 text-white/90" strokeWidth={2.5} />
+                  </div>
                   <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
                   <p className="text-muted-foreground mt-2">{item.desc}</p>
                 </motion.div>
