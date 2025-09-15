@@ -53,7 +53,7 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           <span id="top" className="absolute -top-24" />
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center">
             {/* Left: Text */}
             <div>
               <motion.h1
