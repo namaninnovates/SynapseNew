@@ -108,7 +108,7 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 bg-transparent"
+      className="fixed inset-x-0 top-0 z-50 bg-transparent"
     >
       {/* Pill-shaped, centered container with margins and soft shadow */}
       <div
