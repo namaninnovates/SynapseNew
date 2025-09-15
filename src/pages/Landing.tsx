@@ -260,59 +260,133 @@ export default function Landing() {
 
         {/* How It Works */}
         <section id="how-it-works" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-5xl mx-auto">
-            {/* Scroll-reveal header */}
+          <div className="max-w-5xl mx-auto relative">
+            {/* Subtle controlled glow following the roadmap line */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(1200px 240px at 50% 10%, rgba(99,102,241,0.18), rgba(56,189,248,0.12) 40%, rgba(0,0,0,0) 70%)",
+                filter: "blur(10px)",
+              }}
+            />
+
+            {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-center mb-12"
+              className="text-center mb-12 relative z-10"
             >
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">How It Works</h2>
               <p className="text-muted-foreground text-lg mt-3">
-                A simple path from curious to confident
+                A clean, modern path from curious to confident
               </p>
             </motion.div>
-            
+
+            {/* Roadmap wrapper limits the vertical line from step 1 to 5 */}
             <div className="relative">
-              <ol className="space-y-8 md:space-y-10">
+              {/* Central animated roadmap line (bounded by steps) */}
+              <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[2px] overflow-hidden rounded-full">
+                <motion.div
+                  initial={{ scaleY: 0 }}
+                  whileInView={{ scaleY: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.9, ease: "easeOut" }}
+                  className="origin-top h-full w-full bg-gradient-to-b from-indigo-400/40 via-blue-400/40 to-fuchsia-400/40"
+                />
+              </div>
+
+              {/* Roadmap steps */}
+              <ol className="space-y-10 md:space-y-14 relative z-10">
                 {[
-                  { label: "Onboarding", desc: "Connect LinkedIn, upload your resume, record a short intro." },
-                  { label: "Skill Graph", desc: "See your AI-generated strengths map, clearly visualized." },
-                  { label: "Career Path", desc: "Explore trajectories with match scores and growth trends." },
-                  { label: "Micro-Internship", desc: "Work on realistic projects with guidance and feedback." },
-                  { label: "Portfolio", desc: "Publish your wins and show your simulated experience." },
-                ].map((step, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 * i }}
-                    className="relative pl-16 md:pl-20"
-                  >
-                    <div className="absolute left-0 md:left-1">
-                      <div className="h-12 w-12 md:h-14 md:w-14 grid place-items-center rounded-full bg-white shadow-sm ring-1 ring-black/5">
-                        <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
+                  { title: "Onboarding", desc: "Connect LinkedIn, upload your resume, and record a short intro to personalize your experience.", Icon: Users },
+                  { title: "Skill Graph", desc: "View your AI-generated strengths map and understand your unique profile.", Icon: Brain },
+                  { title: "Career Path", desc: "Explore trajectories with match scores, growth trends, and required skills.", Icon: ArrowRight },
+                  { title: "Micro‑Internship", desc: "Work on realistic projects with guidance and feedback to learn by doing.", Icon: Gamepad2 },
+                  { title: "Portfolio", desc: "Publish your wins and showcase your simulated experience with confidence.", Icon: FolderKanban },
+                ].map((step, i) => {
+                  const isLeft = i % 2 === 0;
+                  return (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: isLeft ? -24 : 24, y: 18 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.04 }}
+                      className="relative"
+                    >
+                      {/* Per-step number badge on roadmap line */}
+                      <div className="absolute left-1/2 -translate-x-1/2 -top-2 md:top-1/2 md:-translate-y-1/2">
+                        <div
+                          className="h-9 w-9 rounded-full grid place-items-center text-white font-bold shadow-[0_8px_30px_rgba(99,102,241,0.35)] ring-1 ring-white/30"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, rgba(99,102,241,0.96), rgba(56,189,248,0.9))",
+                            boxShadow:
+                              "0 0 18px rgba(99,102,241,0.35), 0 0 36px rgba(56,189,248,0.25)",
+                          }}
+                        >
+                          {i + 1}
+                        </div>
                       </div>
-                    </div>
-                    <div className="rounded-xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-white/5 p-5 shadow-[0_1px_0_rgba(255,255,255,0.2)] ring-1 ring-black/5 dark:ring-white/10 transition will-change-transform backdrop-blur-xl hover:-translate-y-1.5 hover:shadow-[0_0_50px_rgba(99,102,241,0.28),0_0_60px_rgba(236,72,153,0.18)] hover:ring-2 hover:ring-primary/50">
-                      {/* Gradient inner glow overlay */}
+
+                      {/* Connector from line to card */}
                       <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-400/15 via-purple-400/15 to-pink-400/15 opacity-0 group-hover:opacity-100 transition-opacity"
-                      />
-                      {/* Inner ring for glass depth */}
+                        className={`hidden md:block absolute top-1/2 -translate-y-1/2 ${isLeft ? "left-1/2 -translate-x-full" : "left-1/2"} `}
+                      >
+                        <div
+                          className={`h-[2px] ${isLeft ? "w-24" : "w-24"} rounded-full`}
+                          style={{
+                            background:
+                              "linear-gradient(90deg, rgba(99,102,241,0.45), rgba(56,189,248,0.45))",
+                            boxShadow:
+                              "0 0 10px rgba(99,102,241,0.35), 0 0 18px rgba(56,189,248,0.25)",
+                          }}
+                        />
+                      </div>
+
+                      {/* Card wrapper alternating sides */}
                       <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-white/40 dark:ring-white/10"
-                      />
-                      <h4 className="text-lg font-semibold">{step.label}</h4>
-                      <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
-                    </div>
-                  </motion.li>
-                ))}
+                        className={`md:flex ${isLeft ? "md:justify-start" : "md:justify-end"} md:pl-0`}
+                      >
+                        <div className="relative">
+                          {/* Hover glow outline via masked gradient */}
+                          <div
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 rounded-xl opacity-0 md:group-hover:opacity-100 transition-opacity"
+                            style={{
+                              padding: "2px",
+                              background:
+                                "conic-gradient(from 0deg, rgba(99,102,241,0.9), rgba(56,189,248,0.9), rgba(236,72,153,0.9), rgba(99,102,241,0.9))",
+                              WebkitMask:
+                                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                              WebkitMaskComposite: "xor",
+                              maskComposite: "exclude",
+                              borderRadius: "0.75rem",
+                            } as React.CSSProperties}
+                          />
+                          {/* Card */}
+                          <div className="group relative w-full md:max-w-[480px] rounded-xl p-6 md:p-7 bg-white/10 dark:bg-white/5 backdrop-blur-xl ring-1 ring-white/25 dark:ring-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_30px_rgba(0,0,0,0.15)] transition-all duration-300 will-change-transform hover:scale-[1.02]">
+                            <div className="flex items-start gap-4">
+                              <div className="shrink-0 h-12 w-12 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-md grid place-items-center ring-1 ring-white/30 dark:ring-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.22)]">
+                                <step.Icon className="h-6 w-6 text-white/90" strokeWidth={2.4} />
+                              </div>
+                              <div>
+                                <h4 className="text-lg md:text-xl font-semibold">{step.title}</h4>
+                                <p className="text-sm md:text-base text-muted-foreground mt-1">
+                                  {step.desc}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.li>
+                  );
+                })}
               </ol>
             </div>
           </div>
