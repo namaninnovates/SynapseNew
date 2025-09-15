@@ -88,7 +88,7 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.12 }}
-                className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-3"
+                className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-3 mx-auto"
               >
                 From lost to confident — test-drive your dream career with AI.
               </motion.p>
@@ -97,7 +97,7 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.18 }}
-                className="text-base md:text-lg text-muted-foreground max-w-2xl mb-8"
+                className="text-base md:text-lg text-muted-foreground max-w-2xl mb-8 mx-auto"
               >
                 Experience your future career through hands-on simulations. Discover your
                 strengths, explore trajectories, and build a portfolio that proves it.
@@ -107,7 +107,7 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.24 }}
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-4 items-center justify-center"
               >
                 {isAuthenticated ? (
                   <Button
