@@ -46,7 +46,7 @@ export default function Skills() {
 
   const getSourceIcon = (source: string) => {
     switch (source) {
-      case "linkedin": return <Linkedin className="h-4 w-4 text-blue-600" />;
+      case "linkedin": return <Linkedin className="h-4 w-4 text-gray-500" />;
       case "resume": return <FileText className="h-4 w-4 text-orange-600" />;
       case "video": return <Video className="h-4 w-4 text-purple-600" />;
       default: return <Brain className="h-4 w-4" />;
@@ -60,7 +60,7 @@ export default function Skills() {
   };
 
   return (
-    <div className="min-h-screen pt-20 pb-12">
+    <div className="min-h-screen pt-20 pb-12 mt-[100px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,7 +126,7 @@ export default function Skills() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Brain className="h-5 w-5 text-blue-600" />
+                  <Brain className="h-5 w-5 text-emerald-600" />
                   <span>Hard Skills</span>
                 </CardTitle>
                 <CardDescription>
@@ -176,7 +176,7 @@ export default function Skills() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="text-center">
                   <div className="flex justify-center mb-2">
-                    <Linkedin className="h-8 w-8 text-blue-600" />
+                    <Linkedin className="h-8 w-8 text-gray-500" />
                   </div>
                   <h3 className="font-semibold mb-1">LinkedIn Analysis</h3>
                   <p className="text-sm text-muted-foreground">
