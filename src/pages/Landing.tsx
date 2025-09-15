@@ -439,7 +439,7 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 * i }}
-                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-sm hover:-translate-y-1.5 hover:shadow-xl hover:shadow-purple-500/10 dark:border-white/10 dark:bg-gradient-to-br dark:from-zinc-800/60 dark:to-zinc-800/40`}
+                className={`group relative rounded-2xl border bg-gradient-to-br ${item.bg} p-6 transition will-change-transform backdrop-blur-md hover:-translate-y-1.5 hover:shadow-[0_0_36px] hover:shadow-primary/15 hover:ring-2 hover:ring-primary/30 hover:border-transparent dark:border-white/10 dark:bg-white/10`}
               >
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0.9 }}
@@ -510,7 +510,7 @@ export default function Landing() {
                       <span className="text-lg md:text-xl font-semibold text-indigo-600">{i + 1}</span>
                     </div>
                   </div>
-                  <div className="rounded-xl bg-white dark:bg-zinc-900 p-5 ring-1 ring-black/5 dark:ring-white/10 shadow-sm">
+                  <div className="rounded-xl bg-white/80 dark:bg-white/10 p-5 ring-1 ring-black/5 dark:ring-white/10 shadow-sm transition will-change-transform backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_28px] hover:shadow-primary/10 hover:ring-2 hover:ring-primary/25">
                     <h4 className="text-lg font-semibold">{step.label}</h4>
                     <p className="text-sm text-muted-foreground mt-1">{step.desc}</p>
                   </div>
