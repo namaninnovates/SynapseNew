@@ -64,6 +64,16 @@ export default function Trajectories() {
     return "text-rose-300 bg-rose-500/15";
   };
 
+  // Add colorful classes for skills badges to improve highlighting
+  const skillColorClasses: Array<string> = [
+    "bg-violet-500/15 text-violet-300 border-violet-400/30",
+    "bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
+    "bg-amber-500/15 text-amber-300 border-amber-400/30",
+    "bg-sky-500/15 text-sky-300 border-sky-400/30",
+    "bg-rose-500/15 text-rose-300 border-rose-400/30",
+    "bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/30",
+  ];
+
   const handleTestDrive = async (trajectory: any) => {
     try {
       const projectId = await createProject({
@@ -138,7 +148,11 @@ export default function Trajectories() {
                     <h4 className="font-semibold mb-2">Skills you'll develop:</h4>
                     <div className="flex flex-wrap gap-2">
                       {trajectory.requiredSkills.map((skill, skillIndex) => (
-                        <Badge key={skillIndex} variant="outline" className="text-xs">
+                        <Badge
+                          key={skillIndex}
+                          variant="outline"
+                          className={`text-xs border ${skillColorClasses[skillIndex % skillColorClasses.length]}`}
+                        >
                           {skill}
                         </Badge>
                       ))}
