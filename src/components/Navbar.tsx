@@ -65,7 +65,6 @@ export function Navbar() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [scrolled, setScrolled] = useState(false);
   const [hue, setHue] = useState(265);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -93,18 +92,6 @@ export function Navbar() {
     return () => clearInterval(id);
   }, []);
 
-  const runTransition = (action: () => void, options?: { delayNavigateMs?: number; totalMs?: number }) => {
-    const navigateDelay = options?.delayNavigateMs ?? 600; // when to perform the action
-    const total = options?.totalMs ?? 1200; // when to fully hide overlay
-    setIsTransitioning(true);
-    window.setTimeout(() => {
-      action();
-    }, navigateDelay);
-    window.setTimeout(() => {
-      setIsTransitioning(false);
-    }, total);
-  };
-
   const smoothScrollToId = (hash: string) => {
     const id = hash.replace("#", "");
     const el = document.getElementById(id);
@@ -114,10 +101,9 @@ export function Navbar() {
   };
 
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
-    // Only intercept same-page hashes
     if (href.startsWith("/#")) {
       e.preventDefault();
-      runTransition(() => smoothScrollToId(href.slice(2)));
+      smoothScrollToId(href.slice(2));
     }
   };
 
@@ -132,59 +118,6 @@ export function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       className="fixed inset-x-0 top-0 z-50 bg-transparent"
     >
-      {/* Fullscreen glassy transition overlay */}
-      {isTransitioning && (
-        <motion.div
-          key="route-transition-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[60] bg-white/10 dark:bg-black/20 backdrop-blur-xl"
-        >
-          {/* Gradient glow layer */}
-          <div
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background: `
-                radial-gradient(1200px 600px at 10% 10%,
-                  hsla(${(hue + 20) % 360}, 90%, 65%, 0.18), transparent 60%),
-                radial-gradient(1000px 500px at 90% 15%,
-                  hsla(${(hue + 140) % 360}, 92%, 70%, 0.16), transparent 60%),
-                radial-gradient(1200px 600px at 50% 90%,
-                  hsla(${(hue + 260) % 360}, 88%, 68%, 0.14), transparent 60%)
-              `,
-              filter: "blur(12px)",
-            } as React.CSSProperties}
-          />
-          {/* Centered progress shimmer */}
-          <div className="relative h-full w-full flex items-center justify-center">
-            <div className="w-64 max-w-[70vw]">
-              <div className="h-2 w-full rounded-full bg-white/15 overflow-hidden ring-1 ring-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.22),0_8px_30px_rgba(0,0,0,0.08)]">
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0.25) 100%)",
-                  }}
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{ duration: 1.0, ease: "easeInOut", repeat: Infinity }}
-                />
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-3 text-center text-xs font-medium text-white/80"
-              >
-                Loading...
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Pill-shaped, centered container with margins and soft shadow */}
       <div
         className={[
           "pointer-events-none px-8 sm:px-12 lg:px-20",
@@ -300,7 +233,7 @@ export function Navbar() {
               {/* Left: Logo + Text */}
               <Link to="/" className="flex items-center gap-2" onClick={(e) => {
                 e.preventDefault();
-                runTransition(() => navigate("/"));
+                navigate("/");
               }}>
                 <SynapseMark className="h-6 w-6" />
                 <span className="text-lg font-semibold tracking-tight">Synapse</span>
@@ -331,7 +264,6 @@ export function Navbar() {
 
                 {/* Separate pill for profile on extreme right */}
                 <div className="flex items-center gap-1 rounded-full bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/10 backdrop-blur-xl px-1.5 py-1 shadow-lg shadow-black/5">
-                  {/* Profile */}
                   {isAuthenticated ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -345,27 +277,17 @@ export function Navbar() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-44">
-                        <DropdownMenuItem
-                          onClick={() =>
-                            runTransition(() => navigate("/dashboard"))
-                          }
-                        >
+                        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
                           Dashboard
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() =>
-                            runTransition(() => navigate("/portfolio"))
-                          }
-                        >
+                        <DropdownMenuItem onClick={() => navigate("/portfolio")}>
                           Portfolio
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
                           onClick={async () => {
-                            runTransition(async () => {
-                              await signOut();
-                              navigate("/");
-                            });
+                            await signOut();
+                            navigate("/");
                           }}
                         >
                           Sign Out
@@ -376,7 +298,7 @@ export function Navbar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => runTransition(() => navigate("/auth"))}
+                      onClick={() => navigate("/auth")}
                       className="h-8 w-8 rounded-full"
                       title="Sign in"
                     >
@@ -459,7 +381,7 @@ export function Navbar() {
                       onClick={(e) => {
                         e.preventDefault();
                         setMobileMenuOpen(false);
-                        runTransition(() => navigate("/dashboard"));
+                        navigate("/dashboard");
                       }}
                     >
                       Dashboard
@@ -470,7 +392,7 @@ export function Navbar() {
                       onClick={(e) => {
                         e.preventDefault();
                         setMobileMenuOpen(false);
-                        runTransition(() => navigate("/portfolio"));
+                        navigate("/portfolio");
                       }}
                     >
                       Portfolio
@@ -480,10 +402,8 @@ export function Navbar() {
                       className="w-full justify-start"
                       onClick={async () => {
                         setMobileMenuOpen(false);
-                        runTransition(async () => {
-                          await signOut();
-                          navigate("/");
-                        });
+                        await signOut();
+                        navigate("/");
                       }}
                     >
                       Sign Out
@@ -496,7 +416,7 @@ export function Navbar() {
                     onClick={(e) => {
                       e.preventDefault();
                       setMobileMenuOpen(false);
-                      runTransition(() => navigate("/auth"));
+                      navigate("/auth");
                     }}
                   >
                     Sign In
