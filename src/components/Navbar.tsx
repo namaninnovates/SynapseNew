@@ -130,25 +130,58 @@ export function Navbar() {
           {/* Multicolor diffused glow ring (subtle, animated by hue) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -inset-4 rounded-full opacity-60"
+            className="pointer-events-none absolute -inset-4 rounded-full opacity-70"
             style={{
               background: `
                 conic-gradient(
                   from ${hue}deg,
-                  hsla(${hue}, 90%, 65%, 0.22),
-                  hsla(${(hue + 60) % 360}, 90%, 66%, 0.18),
-                  hsla(${(hue + 120) % 360}, 90%, 68%, 0.16),
-                  hsla(${(hue + 180) % 360}, 90%, 66%, 0.18),
-                  hsla(${(hue + 240) % 360}, 90%, 64%, 0.20),
-                  hsla(${(hue + 300) % 360}, 90%, 66%, 0.18),
-                  hsla(${hue}, 90%, 65%, 0.22)
+                  hsla(${hue}, 92%, 68%, 0.28),
+                  hsla(${(hue + 30) % 360}, 92%, 67%, 0.24),
+                  hsla(${(hue + 60) % 360}, 92%, 66%, 0.22),
+                  hsla(${(hue + 90) % 360}, 92%, 65%, 0.26),
+                  hsla(${(hue + 120) % 360}, 92%, 66%, 0.24),
+                  hsla(${(hue + 150) % 360}, 92%, 67%, 0.20),
+                  hsla(${(hue + 180) % 360}, 92%, 68%, 0.22),
+                  hsla(${(hue + 210) % 360}, 92%, 67%, 0.20),
+                  hsla(${(hue + 240) % 360}, 92%, 66%, 0.22),
+                  hsla(${(hue + 270) % 360}, 92%, 65%, 0.24),
+                  hsla(${(hue + 300) % 360}, 92%, 66%, 0.26),
+                  hsla(${(hue + 330) % 360}, 92%, 67%, 0.24),
+                  hsla(${hue}, 92%, 68%, 0.28)
                 )
               `,
-              filter: "blur(24px)",
+              filter: "blur(28px)",
               maskImage:
-                "radial-gradient(closest-side, rgba(0,0,0,0) 62%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,1) 100%)",
+                "radial-gradient(closest-side, rgba(0,0,0,0) 60%, rgba(0,0,0,0.65) 74%, rgba(0,0,0,1) 100%)",
               WebkitMaskImage:
-                "radial-gradient(closest-side, rgba(0,0,0,0) 62%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,1) 100%)",
+                "radial-gradient(closest-side, rgba(0,0,0,0) 60%, rgba(0,0,0,0.65) 74%, rgba(0,0,0,1) 100%)",
+            } as React.CSSProperties}
+          />
+
+          {/* Extra soft outer halo for depth and diffusion */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-8 rounded-[999px] opacity-50"
+            style={{
+              background: `
+                conic-gradient(
+                  from ${(hue + 15) % 360}deg,
+                  hsla(${(hue + 10) % 360}, 90%, 70%, 0.14),
+                  hsla(${(hue + 50) % 360}, 90%, 72%, 0.10),
+                  hsla(${(hue + 95) % 360}, 90%, 74%, 0.12),
+                  hsla(${(hue + 140) % 360}, 90%, 72%, 0.10),
+                  hsla(${(hue + 185) % 360}, 90%, 70%, 0.12),
+                  hsla(${(hue + 230) % 360}, 90%, 72%, 0.10),
+                  hsla(${(hue + 275) % 360}, 90%, 74%, 0.12),
+                  hsla(${(hue + 320) % 360}, 90%, 72%, 0.10),
+                  hsla(${(hue + 360) % 360}, 90%, 70%, 0.14)
+                )
+              `,
+              filter: "blur(40px)",
+              maskImage:
+                "radial-gradient(closest-side, rgba(0,0,0,0) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,1) 100%)",
+              WebkitMaskImage:
+                "radial-gradient(closest-side, rgba(0,0,0,0) 52%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,1) 100%)",
             } as React.CSSProperties}
           />
 
@@ -158,16 +191,19 @@ export function Navbar() {
             className="pointer-events-none absolute inset-0 rounded-full"
             style={{
               boxShadow:
-                "0 0 20px rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.18)",
-              // Thin animated gradient ring with masked outline
+                "0 0 22px rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.18)",
               background: `
                 conic-gradient(
                   from ${hue}deg,
-                  hsla(${hue}, 90%, 70%, 0.35),
-                  hsla(${(hue + 90) % 360}, 90%, 70%, 0.28),
-                  hsla(${(hue + 180) % 360}, 90%, 70%, 0.30),
-                  hsla(${(hue + 270) % 360}, 90%, 70%, 0.28),
-                  hsla(${hue}, 90%, 70%, 0.35)
+                  hsla(${hue}, 92%, 72%, 0.42),
+                  hsla(${(hue + 45) % 360}, 92%, 71%, 0.34),
+                  hsla(${(hue + 90) % 360}, 92%, 70%, 0.30),
+                  hsla(${(hue + 135) % 360}, 92%, 71%, 0.32),
+                  hsla(${(hue + 180) % 360}, 92%, 72%, 0.34),
+                  hsla(${(hue + 225) % 360}, 92%, 71%, 0.30),
+                  hsla(${(hue + 270) % 360}, 92%, 70%, 0.34),
+                  hsla(${(hue + 315) % 360}, 92%, 71%, 0.36),
+                  hsla(${hue}, 92%, 72%, 0.42)
                 )
               `,
               padding: "1px",
