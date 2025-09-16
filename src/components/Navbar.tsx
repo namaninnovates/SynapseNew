@@ -100,11 +100,25 @@ export function Navbar() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
-    if (href.startsWith("/#")) {
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    href: string
+  ) => {
+    if (!href.startsWith("/#")) return;
+
+    const pathname =
+      typeof window !== "undefined" ? window.location.pathname : "/";
+
+    // If we're not on the landing page, navigate to the anchor on "/"
+    if (pathname !== "/") {
       e.preventDefault();
-      smoothScrollToId(href.slice(2));
+      navigate(href);
+      return;
     }
+
+    // On the landing page, smooth scroll
+    e.preventDefault();
+    smoothScrollToId(href.slice(2));
   };
 
   const handleSignOut = async () => {
