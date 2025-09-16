@@ -120,12 +120,64 @@ export function Navbar() {
             "transition-all duration-300",
             scrolled ? "scale-[0.98] backdrop-blur-2xl" : "",
             "border",
+            "relative overflow-visible",
           ].join(" ")}
           style={{
             borderWidth: 1.5,
             borderColor: `hsl(${hue} 90% ${theme === "dark" ? "55%" : "60%"})`,
           }}
         >
+          {/* Multicolor diffused glow ring (subtle, animated by hue) */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-4 rounded-full opacity-60"
+            style={{
+              background: `
+                conic-gradient(
+                  from ${hue}deg,
+                  hsla(${hue}, 90%, 65%, 0.22),
+                  hsla(${(hue + 60) % 360}, 90%, 66%, 0.18),
+                  hsla(${(hue + 120) % 360}, 90%, 68%, 0.16),
+                  hsla(${(hue + 180) % 360}, 90%, 66%, 0.18),
+                  hsla(${(hue + 240) % 360}, 90%, 64%, 0.20),
+                  hsla(${(hue + 300) % 360}, 90%, 66%, 0.18),
+                  hsla(${hue}, 90%, 65%, 0.22)
+                )
+              `,
+              filter: "blur(24px)",
+              maskImage:
+                "radial-gradient(closest-side, rgba(0,0,0,0) 62%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,1) 100%)",
+              WebkitMaskImage:
+                "radial-gradient(closest-side, rgba(0,0,0,0) 62%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,1) 100%)",
+            } as React.CSSProperties}
+          />
+
+          {/* Inner subtle halo just around the border for depth */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-full"
+            style={{
+              boxShadow:
+                "0 0 20px rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.18)",
+              // Thin animated gradient ring with masked outline
+              background: `
+                conic-gradient(
+                  from ${hue}deg,
+                  hsla(${hue}, 90%, 70%, 0.35),
+                  hsla(${(hue + 90) % 360}, 90%, 70%, 0.28),
+                  hsla(${(hue + 180) % 360}, 90%, 70%, 0.30),
+                  hsla(${(hue + 270) % 360}, 90%, 70%, 0.28),
+                  hsla(${hue}, 90%, 70%, 0.35)
+                )
+              `,
+              padding: "1px",
+              WebkitMask:
+                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+              WebkitMaskComposite: "xor",
+              maskComposite: "exclude",
+            } as React.CSSProperties}
+          />
+
           <div className="px-4 sm:px-5">
             <div className="h-14 flex items-center justify-between">
               {/* Left: Logo + Text */}
