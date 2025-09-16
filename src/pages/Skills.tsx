@@ -41,6 +41,7 @@ export default function Skills() {
     );
   }
 
+  const firstName = user?.name?.split(" ")[0] ?? "there";
   const softSkills = skills.filter(skill => skill.category === "soft");
   const hardSkills = skills.filter(skill => skill.category === "hard");
 
@@ -68,7 +69,7 @@ export default function Skills() {
           className="mb-12"
         >
           <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Hello {user?.name ?? "there"}, here is an analysis of your skills
+            Hello {firstName}, here is an analysis of your skills
           </h1>
           <p className="text-xl text-muted-foreground">
             AI-powered analysis of your capabilities and strengths

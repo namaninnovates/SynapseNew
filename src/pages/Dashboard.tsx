@@ -37,6 +37,9 @@ export default function Dashboard() {
   const skillsGenerated = skills && skills.length > 0;
   const trajectoriesGenerated = trajectories && trajectories.length > 0;
 
+  // Use first name only for greetings (derived from LinkedIn name if available)
+  const firstName = user?.name?.split(" ")[0] ?? "there";
+
   const handleGenerateSkills = async () => {
     try {
       await generateSkills();
@@ -148,7 +151,7 @@ export default function Dashboard() {
           className="mb-12"
         >
           <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Hey {user.name || "there"}, ready to simulate your future?
+            Hey {firstName}, ready to simulate your future?
           </h1>
           <p className="text-xl text-muted-foreground">
             Your personalized career simulation dashboard
