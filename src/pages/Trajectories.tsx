@@ -64,15 +64,16 @@ export default function Trajectories() {
     return "text-rose-300 bg-rose-500/15";
   };
 
-  // Add colorful classes for skills badges to improve highlighting
-  const skillColorClasses: Array<string> = [
-    "bg-violet-500/15 text-violet-300 border-violet-400/30",
-    "bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
-    "bg-amber-500/15 text-amber-300 border-amber-400/30",
-    "bg-sky-500/15 text-sky-300 border-sky-400/30",
-    "bg-rose-500/15 text-rose-300 border-rose-400/30",
-    "bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/30",
-  ];
+  // Generate diverse, subtle per-skill colors (pastel, readable)
+  const getSkillStyle = (index: number) => {
+    // Golden angle to spread hues evenly
+    const hue = (index * 137.508) % 360;
+    return {
+      backgroundColor: `hsla(${hue}, 92%, 60%, 0.14)`,
+      color: `hsl(${hue}, 92%, 85%)`,
+      borderColor: `hsla(${hue}, 92%, 70%, 0.35)`,
+    } as React.CSSProperties;
+  };
 
   const handleTestDrive = async (trajectory: any) => {
     try {
@@ -151,7 +152,8 @@ export default function Trajectories() {
                         <Badge
                           key={skillIndex}
                           variant="outline"
-                          className={`text-xs border ${skillColorClasses[skillIndex % skillColorClasses.length]}`}
+                          className="text-xs border"
+                          style={getSkillStyle(skillIndex)}
                         >
                           {skill}
                         </Badge>
