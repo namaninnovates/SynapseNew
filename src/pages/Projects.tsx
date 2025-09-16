@@ -111,7 +111,7 @@ export default function Projects() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Project List */}
           <div className="lg:col-span-1">
-            <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+            <Card className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
               <CardHeader>
                 <CardTitle className="text-lg">Active Projects</CardTitle>
               </CardHeader>
@@ -145,7 +145,7 @@ export default function Projects() {
             {selectedProject && (
               <div className="space-y-6">
                 {/* Project Header */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -162,7 +162,7 @@ export default function Projects() {
                 </Card>
 
                 {/* Resources */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <BookOpen className="h-5 w-5" />
@@ -197,7 +197,7 @@ export default function Projects() {
                 </Card>
 
                 {/* Work Area */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <MessageSquare className="h-5 w-5" />

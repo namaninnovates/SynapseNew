@@ -163,7 +163,7 @@ export default function Dashboard() {
             transition={{ delay: 0.1 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -205,7 +205,7 @@ export default function Dashboard() {
             transition={{ delay: 0.2 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Career Trajectories</CardTitle>
@@ -253,7 +253,7 @@ export default function Dashboard() {
             transition={{ delay: 0.3 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Active Projects</CardTitle>
@@ -307,7 +307,7 @@ export default function Dashboard() {
             className="mt-12"
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
