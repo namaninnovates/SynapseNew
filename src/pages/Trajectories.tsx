@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/convex/_generated/api";
 import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, DollarSign, Play, TrendingDown, TrendingUp, Minus } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useQuery, useMutation } from "convex/react";
 import { toast } from "sonner";
@@ -15,6 +15,13 @@ export default function Trajectories() {
   const navigate = useNavigate();
   const trajectories = useQuery(api.trajectories.getUserTrajectories);
   const createProject = useMutation(api.projects.createProject);
+
+  // Add animated hue like navbar for multicolor glow
+  const [hue, setHue] = useState(265);
+  useEffect(() => {
+    const id = setInterval(() => setHue((h) => (h + 1) % 360), 40);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -155,14 +162,38 @@ export default function Trajectories() {
                   </div>
 
                   {/* Action button */}
-                  <Button 
-                    onClick={() => handleTestDrive(trajectory)}
-                    className="w-full"
-                    variant="secondary"
-                  >
-                    <Play className="h-4 w-4 mr-2" />
-                    Test Drive This Job
-                  </Button>
+                  <div className="relative group">
+                    {/* Multicolor animated glow backdrop */}
+                    <div
+                      aria-hidden
+                      className="absolute -inset-[2px] rounded-xl opacity-80 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{
+                        background: `
+                          conic-gradient(
+                            from ${hue}deg,
+                            hsla(${hue}, 92%, 68%, 0.45),
+                            hsla(${(hue + 45) % 360}, 92%, 66%, 0.35),
+                            hsla(${(hue + 90) % 360}, 92%, 64%, 0.30),
+                            hsla(${(hue + 135) % 360}, 92%, 66%, 0.35),
+                            hsla(${(hue + 180) % 360}, 92%, 68%, 0.40),
+                            hsla(${(hue + 225) % 360}, 92%, 66%, 0.32),
+                            hsla(${(hue + 270) % 360}, 92%, 64%, 0.34),
+                            hsla(${(hue + 315) % 360}, 92%, 66%, 0.38),
+                            hsla(${hue}, 92%, 68%, 0.45)
+                          )
+                        `,
+                        filter: "blur(14px)",
+                      } as React.CSSProperties}
+                    />
+                    <Button
+                      onClick={() => handleTestDrive(trajectory)}
+                      variant="secondary"
+                      className="relative w-full rounded-xl bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/15 hover:bg-white/15 dark:hover:bg-white/15 transition"
+                    >
+                      <Play className="h-4 w-4 mr-2" />
+                      Test Drive This Job
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
