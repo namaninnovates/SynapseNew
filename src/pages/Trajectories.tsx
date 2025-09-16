@@ -104,7 +104,7 @@ export default function Trajectories() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index }}
             >
-              <Card className="h-full hover:shadow-lg transition-shadow duration-300 rounded-2xl backdrop-blur-md bg-white/15 dark:bg-white/15 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-300 rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
