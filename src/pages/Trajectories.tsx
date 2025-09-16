@@ -158,6 +158,7 @@ export default function Trajectories() {
                   <Button 
                     onClick={() => handleTestDrive(trajectory)}
                     className="w-full"
+                    variant="secondary"
                   >
                     <Play className="h-4 w-4 mr-2" />
                     Test Drive This Job
