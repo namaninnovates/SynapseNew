@@ -162,7 +162,9 @@ export default function Dashboard() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card>
+            <Card
+              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+            >
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5" />
@@ -202,7 +204,9 @@ export default function Dashboard() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card>
+            <Card
+              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+            >
               <CardHeader>
                 <CardTitle>Career Trajectories</CardTitle>
                 <CardDescription>
@@ -248,7 +252,9 @@ export default function Dashboard() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card>
+            <Card
+              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+            >
               <CardHeader>
                 <CardTitle>Active Projects</CardTitle>
                 <CardDescription>
@@ -300,7 +306,9 @@ export default function Dashboard() {
             transition={{ delay: 0.4 }}
             className="mt-12"
           >
-            <Card>
+            <Card
+              className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+            >
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
                 <CardDescription>
