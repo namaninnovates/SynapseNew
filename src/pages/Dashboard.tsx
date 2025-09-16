@@ -163,7 +163,7 @@ export default function Dashboard() {
             transition={{ delay: 0.1 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -205,7 +205,7 @@ export default function Dashboard() {
             transition={{ delay: 0.2 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Career Trajectories</CardTitle>
@@ -253,7 +253,7 @@ export default function Dashboard() {
             transition={{ delay: 0.3 }}
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Active Projects</CardTitle>
@@ -307,7 +307,7 @@ export default function Dashboard() {
             className="mt-12"
           >
             <Card
-              className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
             >
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>

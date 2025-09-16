@@ -82,7 +82,7 @@ export default function Skills() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+            <Card className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5 text-purple-600" />
@@ -123,7 +123,7 @@ export default function Skills() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+            <Card className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Brain className="h-5 w-5 text-emerald-600" />
@@ -165,7 +165,7 @@ export default function Skills() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="rounded-2xl backdrop-blur-md bg-white/20 dark:bg-white/20 border border-white/20 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+          <Card className="rounded-2xl backdrop-blur-md bg-black/40 dark:bg-black/40 border border-white/15 ring-1 ring-white/20 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
             <CardHeader>
               <CardTitle>Skills Overview</CardTitle>
               <CardDescription>
