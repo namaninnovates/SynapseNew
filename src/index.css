@@ -147,3 +147,67 @@
 /* Hide scrollbars where we need sleek scrollable tabs */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Modern custom cursor overlay (non-intrusive) */
+.synapse-cursor-dot,
+.synapse-cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60; /* above content, below toasts if needed */
+  transform: translate3d(-9999px, -9999px, 0);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Small glowing dot */
+.synapse-cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, hsl(260 90% 70%), hsl(210 90% 65%));
+  box-shadow:
+    0 0 10px hsl(260 90% 65% / 0.6),
+    0 0 18px hsl(290 90% 65% / 0.45),
+    0 0 28px hsl(210 90% 60% / 0.35);
+  mix-blend-mode: difference;
+  transition: transform 120ms ease, opacity 180ms ease;
+}
+
+.synapse-cursor-dot.is-down {
+  transform: translate3d(var(--x, -9999px), var(--y, -9999px), 0) scale(0.85);
+  opacity: 0.9;
+}
+
+/* Soft ring that trails */
+.synapse-cursor-ring {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 50%, hsl(260 90% 70% / 0.25), transparent 60%);
+  border: 1px solid hsl(260 80% 70% / 0.35);
+  box-shadow:
+    0 0 24px hsl(260 90% 70% / 0.25),
+    inset 0 0 12px hsl(260 90% 70% / 0.18);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 180ms ease;
+}
+
+/* Enlarge and hue shift over clickable elements */
+.synapse-cursor-ring.is-clickable {
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  margin-top: -22px;
+  border-color: hsl(300 90% 72% / 0.45);
+  box-shadow:
+    0 0 30px hsl(300 90% 72% / 0.28),
+    inset 0 0 16px hsl(300 90% 72% / 0.22);
+}
+
+.synapse-cursor-ring.is-down {
+  transform: translate3d(var(--x, -9999px), var(--y, -9999px), 0) scale(0.92);
+}

@@ -19,6 +19,7 @@ import Portfolio from "./pages/Portfolio.tsx";
 import { Navbar } from "./components/Navbar.tsx";
 import "./types/global.d.ts";
 import BackgroundAurora from "@/components/BackgroundAurora";
+import Cursor from "@/components/Cursor.tsx";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
@@ -57,6 +58,7 @@ createRoot(document.getElementById("root")!).render(
             <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
             <div className="relative z-20">
               <Navbar />
+              <Cursor />
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/auth" element={<AuthPage redirectAfterAuth="/dashboard" />} />
