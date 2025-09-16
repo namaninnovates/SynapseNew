@@ -51,10 +51,10 @@ export default function Trajectories() {
   };
 
   const getMatchColor = (percentage: number) => {
-    if (percentage >= 90) return "text-green-600 bg-green-50";
-    if (percentage >= 80) return "text-blue-600 bg-blue-50";
-    if (percentage >= 70) return "text-yellow-600 bg-yellow-50";
-    return "text-red-600 bg-red-50";
+    if (percentage >= 90) return "text-emerald-300 bg-emerald-500/15";
+    if (percentage >= 80) return "text-blue-300 bg-blue-500/15";
+    if (percentage >= 70) return "text-amber-300 bg-amber-500/15";
+    return "text-rose-300 bg-rose-500/15";
   };
 
   const handleTestDrive = async (trajectory: any) => {
@@ -97,7 +97,7 @@ export default function Trajectories() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index }}
             >
-              <Card className="h-full hover:shadow-lg transition-shadow duration-300 rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-300 rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">

@@ -56,10 +56,10 @@ export default function Projects() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "text-green-600 bg-green-50";
-      case "submitted": return "text-blue-600 bg-blue-50";
-      case "in_progress": return "text-yellow-600 bg-yellow-50";
-      default: return "text-gray-600 bg-gray-50";
+      case "completed": return "text-emerald-300 bg-emerald-500/15";
+      case "submitted": return "text-blue-300 bg-blue-500/15";
+      case "in_progress": return "text-amber-300 bg-amber-500/15";
+      default: return "text-foreground/80 bg-foreground/10";
     }
   };
 
@@ -111,7 +111,7 @@ export default function Projects() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Project List */}
           <div className="lg:col-span-1">
-            <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+            <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
               <CardHeader>
                 <CardTitle className="text-lg">Active Projects</CardTitle>
               </CardHeader>
@@ -145,7 +145,7 @@ export default function Projects() {
             {selectedProject && (
               <div className="space-y-6">
                 {/* Project Header */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -162,7 +162,7 @@ export default function Projects() {
                 </Card>
 
                 {/* Resources */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <BookOpen className="h-5 w-5" />
@@ -197,7 +197,7 @@ export default function Projects() {
                 </Card>
 
                 {/* Work Area */}
-                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+                <Card className="rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/15 ring-1 ring-white/25 dark:ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <MessageSquare className="h-5 w-5" />
@@ -232,12 +232,12 @@ export default function Projects() {
                     )}
 
                     {selectedProject.status === "completed" && (
-                      <div className="text-center p-6 bg-green-50 rounded-lg">
-                        <h3 className="font-semibold text-green-800 mb-2">Project Completed!</h3>
-                        <p className="text-sm text-green-600 mb-4">
+                      <div className="text-center p-6 rounded-2xl backdrop-blur-md bg-white/10 dark:bg-white/10 ring-1 ring-white/25 dark:ring-white/10">
+                        <h3 className="font-semibold text-emerald-300 mb-2">Project Completed!</h3>
+                        <p className="text-sm text-emerald-200 mb-4">
                           Great work! This project has been added to your portfolio.
                         </p>
-                        <Button asChild>
+                        <Button asChild variant="secondary">
                           <Link to="/portfolio">View Portfolio</Link>
                         </Button>
                       </div>
