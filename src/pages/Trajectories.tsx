@@ -64,14 +64,26 @@ export default function Trajectories() {
     return "text-rose-300 bg-rose-500/15";
   };
 
-  // Generate diverse, subtle per-skill colors (pastel, readable)
-  const getSkillStyle = (index: number) => {
-    // Golden angle to spread hues evenly
-    const hue = (index * 137.508) % 360;
+  // Deterministic hue from a string (minimize collisions, stable across renders)
+  const hashStringToHue = (str: string) => {
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+      // djb2 hashing
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+      hash = hash & hash; // Force 32-bit
+    }
+    // Map to 0-359, add offset to avoid clustering around 0
+    const hue = Math.abs(hash) % 360;
+    return hue;
+  };
+
+  // Generate subtle, readable pastel style per unique skill
+  const getSkillStyle = (skillName: string) => {
+    const baseHue = hashStringToHue(skillName);
     return {
-      backgroundColor: `hsla(${hue}, 92%, 60%, 0.14)`,
-      color: `hsl(${hue}, 92%, 85%)`,
-      borderColor: `hsla(${hue}, 92%, 70%, 0.35)`,
+      backgroundColor: `hsla(${baseHue}, 92%, 60%, 0.14)`,
+      color: `hsl(${baseHue}, 92%, 85%)`,
+      borderColor: `hsla(${baseHue}, 92%, 70%, 0.35)`,
     } as React.CSSProperties;
   };
 
@@ -153,7 +165,7 @@ export default function Trajectories() {
                           key={skillIndex}
                           variant="outline"
                           className="text-xs border"
-                          style={getSkillStyle(skillIndex)}
+                          style={getSkillStyle(skill)}
                         >
                           {skill}
                         </Badge>
