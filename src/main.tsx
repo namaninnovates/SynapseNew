@@ -20,7 +20,8 @@ import { Navbar } from "./components/Navbar.tsx";
 import "./types/global.d.ts";
 import BackgroundAurora from "@/components/BackgroundAurora";
 
-const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
+const convexUrl = import.meta.env.VITE_CONVEX_URL as string | undefined;
+const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
 
 function RouteSyncer() {
   const location = useLocation();
@@ -49,30 +50,52 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <VlyToolbar />
     <InstrumentationProvider>
-      <ConvexAuthProvider client={convex}>
-        <BrowserRouter>
-          <RouteSyncer />
-          <div className="min-h-screen relative overflow-x-hidden">
-            <BackgroundAurora animationType="3drotate" />
-            <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
-            <div className="relative z-20">
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/auth" element={<AuthPage redirectAfterAuth="/dashboard" />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/skills" element={<Skills />} />
-                <Route path="/trajectories" element={<Trajectories />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+      {convex ? (
+        <ConvexAuthProvider client={convex}>
+          <BrowserRouter>
+            <RouteSyncer />
+            <div className="min-h-screen relative overflow-x-hidden">
+              <BackgroundAurora animationType="3drotate" />
+              <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
+              <div className="relative z-20">
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/auth" element={<AuthPage redirectAfterAuth="/dashboard" />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/onboarding" element={<Onboarding />} />
+                  <Route path="/skills" element={<Skills />} />
+                  <Route path="/trajectories" element={<Trajectories />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/portfolio" element={<Portfolio />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
             </div>
-          </div>
-        </BrowserRouter>
-        <Toaster />
-      </ConvexAuthProvider>
+          </BrowserRouter>
+          <Toaster />
+        </ConvexAuthProvider>
+      ) : (
+        <>
+          <BrowserRouter>
+            <RouteSyncer />
+            <div className="min-h-screen relative overflow-x-hidden">
+              <BackgroundAurora animationType="3drotate" />
+              <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-background/20 to-background/20 pointer-events-none" />
+              <div className="relative z-20">
+                <Navbar />
+                <div className="mt-[100px] mx-auto max-w-2xl px-4 text-center">
+                  <h1 className="text-2xl font-semibold mb-2">Synapse</h1>
+                  <p className="text-sm text-muted-foreground">
+                    Convex URL is not configured. Set VITE_CONVEX_URL in the API Keys tab or Integrations, then refresh.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </BrowserRouter>
+          <Toaster />
+        </>
+      )}
     </InstrumentationProvider>
   </StrictMode>,
 );
