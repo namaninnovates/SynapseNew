@@ -18,25 +18,51 @@ import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight, Loader2, Mail, UserX } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { CareerAssessmentDialog } from "@/components/CareerAssessmentDialog";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 interface AuthProps {
   redirectAfterAuth?: string;
 }
 
 function Auth({ redirectAfterAuth }: AuthProps = {}) {
-  const { isLoading: authLoading, isAuthenticated, signIn } = useAuth();
+  const { isLoading: authLoading, isAuthenticated, signIn, user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<"signIn" | { email: string }>("signIn");
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showAssessment, setShowAssessment] = useState(false);
+  
+  const saveAssessment = useMutation(api.assessments.saveAssessment);
 
   useEffect(() => {
-    if (!authLoading && isAuthenticated) {
+    if (!authLoading && isAuthenticated && user) {
+      // Check if assessment is completed
+      if (!user.assessmentCompleted) {
+        setShowAssessment(true);
+      } else {
+        const redirect = redirectAfterAuth || "/";
+        navigate(redirect);
+      }
+    }
+  }, [authLoading, isAuthenticated, user, navigate, redirectAfterAuth]);
+
+  const handleAssessmentComplete = async (answers: any) => {
+    try {
+      await saveAssessment({ answers });
+      toast.success("Assessment completed! Generating your personalized career paths...");
+      setShowAssessment(false);
       const redirect = redirectAfterAuth || "/";
       navigate(redirect);
+    } catch (error) {
+      console.error("Failed to save assessment:", error);
+      toast.error("Failed to save assessment. Please try again.");
     }
-  }, [authLoading, isAuthenticated, navigate, redirectAfterAuth]);
+  };
+
   const handleEmailSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -98,8 +124,6 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
 
   return (
     <div className="min-h-screen flex flex-col mt-[100px]">
-
-      
       {/* Auth Content */}
       <div className="flex-1 flex items-center justify-center">
         <div className="flex items-center justify-center h-full flex-col px-4">
@@ -236,6 +260,12 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
         </Card>
         </div>
       </div>
+
+      {/* Career Assessment Dialog */}
+      <CareerAssessmentDialog
+        open={showAssessment}
+        onComplete={handleAssessmentComplete}
+      />
     </div>
   );
 }

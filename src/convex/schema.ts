@@ -36,6 +36,7 @@ const schema = defineSchema(
       resumeUploaded: v.optional(v.boolean()),
       videoUploaded: v.optional(v.boolean()),
       onboardingCompleted: v.optional(v.boolean()),
+      assessmentCompleted: v.optional(v.boolean()),
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
     // User profiles with career data
@@ -56,6 +57,18 @@ const schema = defineSchema(
       resumeFileId: v.optional(v.id("_storage")),
       videoFileId: v.optional(v.id("_storage")),
       skillsAnalyzed: v.optional(v.boolean()),
+      assessmentAnswers: v.optional(v.object({
+        careerGoal: v.optional(v.string()),
+        primaryMotivator: v.optional(v.string()),
+        fiveYearVision: v.optional(v.string()),
+        weeklyHours: v.optional(v.string()),
+        learningStyle: v.optional(v.string()),
+        skillConfidence: v.optional(v.string()),
+        workEnvironment: v.optional(v.string()),
+        unconventionalRoles: v.optional(v.string()),
+        workEnergy: v.optional(v.string()),
+        minSalary: v.optional(v.string()),
+      })),
     }).index("by_user", ["userId"]),
 
     // Skills extracted from user data
