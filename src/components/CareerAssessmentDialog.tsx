@@ -177,19 +177,23 @@ export function CareerAssessmentDialog({ open, onComplete }: CareerAssessmentDia
 
   return (
     <Dialog open={open} onOpenChange={() => {}}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">{sections[currentSection].title}</DialogTitle>
-          <DialogDescription>{sections[currentSection].description}</DialogDescription>
+      <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto rounded-3xl backdrop-blur-xl bg-black/60 dark:bg-black/70 border border-white/20 shadow-2xl">
+        <DialogHeader className="space-y-3 pb-2">
+          <DialogTitle className="text-3xl font-bold tracking-tight bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
+            {sections[currentSection].title}
+          </DialogTitle>
+          <DialogDescription className="text-base text-muted-foreground">
+            {sections[currentSection].description}
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-muted-foreground">
+        <div className="space-y-8 py-6">
+          <div className="space-y-3">
+            <div className="flex justify-between text-sm font-medium text-muted-foreground">
               <span>Section {currentSection + 1} of {totalSections}</span>
               <span>{Math.round(progress)}% Complete</span>
             </div>
-            <Progress value={progress} className="h-2" />
+            <Progress value={progress} className="h-3 bg-white/10" />
           </div>
 
           <AnimatePresence mode="wait">
@@ -199,30 +203,33 @@ export function CareerAssessmentDialog({ open, onComplete }: CareerAssessmentDia
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-8"
+              className="space-y-10"
             >
               {sections[currentSection].questions.map((question) => (
-                <div key={question.id} className="space-y-4">
-                  <Label className="text-base font-semibold">{question.question}</Label>
+                <div key={question.id} className="space-y-5 p-6 rounded-2xl bg-white/5 border border-white/10">
+                  <Label className="text-lg font-semibold leading-relaxed text-foreground">
+                    {question.question}
+                  </Label>
                   {question.type === "input" ? (
                     <Input
                       type="text"
                       placeholder={question.placeholder}
                       value={answers[question.id as keyof AssessmentAnswers] || ""}
                       onChange={(e) => handleAnswer(question.id, e.target.value)}
-                      className="max-w-md"
+                      className="max-w-md text-base h-12 bg-white/10 border-white/20 focus:border-primary/50"
                     />
                   ) : (
                     <RadioGroup
                       value={answers[question.id as keyof AssessmentAnswers] || ""}
                       onValueChange={(value) => handleAnswer(question.id, value)}
+                      className="space-y-4"
                     >
                       {question.options?.map((option) => (
-                        <div key={option.value} className="flex items-start space-x-3 space-y-0">
-                          <RadioGroupItem value={option.value} id={`${question.id}-${option.value}`} />
+                        <div key={option.value} className="flex items-start space-x-4 space-y-0 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                          <RadioGroupItem value={option.value} id={`${question.id}-${option.value}`} className="mt-0.5" />
                           <Label
                             htmlFor={`${question.id}-${option.value}`}
-                            className="font-normal cursor-pointer leading-relaxed"
+                            className="font-normal cursor-pointer leading-relaxed text-base flex-1"
                           >
                             {option.label}
                           </Label>
@@ -236,21 +243,23 @@ export function CareerAssessmentDialog({ open, onComplete }: CareerAssessmentDia
           </AnimatePresence>
         </div>
 
-        <div className="flex justify-between pt-4 border-t">
+        <div className="flex justify-between pt-6 border-t border-white/10">
           <Button
             variant="outline"
             onClick={handleBack}
             disabled={currentSection === 0}
+            className="h-12 px-6 text-base bg-white/5 border-white/20 hover:bg-white/10"
           >
-            <ChevronLeft className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-5 w-5 mr-2" />
             Back
           </Button>
           <Button
             onClick={handleNext}
             disabled={!canProceed()}
+            className="h-12 px-8 text-base bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
           >
             {currentSection === totalSections - 1 ? "Complete Assessment" : "Next"}
-            {currentSection < totalSections - 1 && <ChevronRight className="h-4 w-4 ml-2" />}
+            {currentSection < totalSections - 1 && <ChevronRight className="h-5 w-5 ml-2" />}
           </Button>
         </div>
       </DialogContent>
