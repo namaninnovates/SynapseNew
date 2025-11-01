@@ -1,0 +1,3 @@
+import { api } from "@/convex/_generated/api";
+
+const saveAssessment = useMutation(api.assessments.saveAssessment);
