@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as ai from "../ai.js";
 import type * as assessments from "../assessments.js";
 import type * as auth_emailOtp from "../auth/emailOtp.js";
 import type * as auth from "../auth.js";
@@ -16,6 +17,7 @@ import type * as portfolio from "../portfolio.js";
 import type * as profiles from "../profiles.js";
 import type * as profilesActions from "../profilesActions.js";
 import type * as projects from "../projects.js";
+import type * as simulations from "../simulations.js";
 import type * as skills from "../skills.js";
 import type * as trajectories from "../trajectories.js";
 import type * as users from "../users.js";
@@ -35,6 +37,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  ai: typeof ai;
   assessments: typeof assessments;
   "auth/emailOtp": typeof auth_emailOtp;
   auth: typeof auth;
@@ -43,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   profiles: typeof profiles;
   profilesActions: typeof profilesActions;
   projects: typeof projects;
+  simulations: typeof simulations;
   skills: typeof skills;
   trajectories: typeof trajectories;
   users: typeof users;

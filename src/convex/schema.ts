@@ -151,6 +151,39 @@ const schema = defineSchema(
       isPublic: v.boolean(),
       completedAt: v.number(),
     }).index("by_user", ["userId"]),
+
+    // AI Mentor chat messages for projects
+    projectMessages: defineTable({
+      projectId: v.id("projects"),
+      userId: v.id("users"),
+      role: v.union(v.literal("user"), v.literal("mentor")),
+      content: v.string(),
+    }).index("by_project", ["projectId"]),
+
+    // Video simulation sessions
+    simulations: defineTable({
+      userId: v.id("users"),
+      trajectoryId: v.id("trajectories"),
+      persona: v.string(),
+      personaTitle: v.string(),
+      questions: v.array(v.string()),
+      responses: v.array(v.object({
+        questionIndex: v.number(),
+        responseText: v.string(),
+      })),
+      status: v.union(
+        v.literal("in_progress"),
+        v.literal("completed")
+      ),
+      score: v.optional(v.object({
+        overall: v.number(),
+        clarity: v.number(),
+        relevance: v.number(),
+        confidence: v.number(),
+        technical: v.number(),
+      })),
+      feedback: v.optional(v.string()),
+    }).index("by_user", ["userId"]),
   },
   {
     schemaValidation: false,

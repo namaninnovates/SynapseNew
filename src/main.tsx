@@ -16,6 +16,7 @@ import Skills from "./pages/Skills.tsx";
 import Trajectories from "./pages/Trajectories.tsx";
 import Projects from "./pages/Projects.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
+import Simulation from "./pages/Simulation.tsx";
 import { Navbar } from "./components/Navbar.tsx";
 import "./types/global.d.ts";
 import BackgroundAurora from "@/components/BackgroundAurora";
@@ -68,6 +69,7 @@ createRoot(document.getElementById("root")!).render(
                 <Route path="/trajectories" element={<Trajectories />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/simulation" element={<Simulation />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>

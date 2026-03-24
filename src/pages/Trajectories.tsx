@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/convex/_generated/api";
 import { motion } from "framer-motion";
-import { ArrowRight, Briefcase, DollarSign, Play, TrendingDown, TrendingUp, Minus } from "lucide-react";
+import { ArrowRight, Briefcase, DollarSign, Play, TrendingDown, TrendingUp, Minus, Video, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useQuery, useMutation } from "convex/react";
@@ -15,6 +15,8 @@ export default function Trajectories() {
   const navigate = useNavigate();
   const trajectories = useQuery(api.trajectories.getUserTrajectories);
   const createProject = useMutation(api.projects.createProject);
+  const generateTrajectories = useMutation(api.trajectories.generateTrajectories);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // Add animated hue like navbar for multicolor glow
   const [hue, setHue] = useState(265);
@@ -29,21 +31,27 @@ export default function Trajectories() {
     }
   }, [isLoading, isAuthenticated, navigate]);
 
+  // Auto-generate trajectories for new users
+  useEffect(() => {
+    if (isAuthenticated && trajectories !== undefined && trajectories.length === 0 && !isGenerating) {
+      setIsGenerating(true);
+      generateTrajectories()
+        .catch(() => {})
+        .finally(() => setIsGenerating(false));
+    }
+  }, [isAuthenticated, trajectories, isGenerating]);
+
   if (isLoading || !isAuthenticated) {
     return <div>Loading...</div>;
   }
 
   if (!trajectories || trajectories.length === 0) {
     return (
-      <div className="min-h-screen pt-20 pb-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">Career Trajectories</h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            Complete your skills analysis to see personalized career paths
-          </p>
-          <Button asChild>
-            <Link to="/dashboard">Go to Dashboard</Link>
-          </Button>
+      <div className="min-h-screen pt-32 pb-12 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Generating your personalized paths…</h2>
+          <p className="text-muted-foreground text-sm">This takes just a moment</p>
         </div>
       </div>
     );
@@ -89,18 +97,16 @@ export default function Trajectories() {
 
   const handleTestDrive = async (trajectory: any) => {
     try {
-      const projectId = await createProject({
-        trajectoryId: trajectory._id,
-        title: `${trajectory.title} Simulation`,
-        brief: `Experience the role of a ${trajectory.title} through this hands-on project simulation. You'll work on real-world challenges and receive mentorship from industry experts.`,
-        role: trajectory.title,
-      });
-      
-      toast.success("Project created! Starting your simulation...");
+      await createProject({ trajectoryId: trajectory._id });
+      toast.success("Micro internship started!");
       navigate(`/projects`);
     } catch (error) {
       toast.error("Failed to create project");
     }
+  };
+
+  const handleStartSimulation = (trajectory: any) => {
+    navigate(`/simulation?trajectoryId=${trajectory._id}`);
   };
 
   return (
@@ -189,41 +195,47 @@ export default function Trajectories() {
                     )}
                   </div>
 
-                  {/* Action button */}
-                  <div className="relative group">
-                    {/* Multicolor animated outline (border-only) */}
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 rounded-xl opacity-80 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
-                      style={{
-                        background: `
-                          conic-gradient(
-                            from ${hue}deg,
-                            hsla(${hue}, 92%, 68%, 0.45),
-                            hsla(${(hue + 45) % 360}, 92%, 66%, 0.35),
-                            hsla(${(hue + 90) % 360}, 92%, 64%, 0.30),
-                            hsla(${(hue + 135) % 360}, 92%, 66%, 0.35),
-                            hsla(${(hue + 180) % 360}, 92%, 68%, 0.40),
-                            hsla(${(hue + 225) % 360}, 92%, 66%, 0.32),
-                            hsla(${(hue + 270) % 360}, 92%, 64%, 0.34),
-                            hsla(${(hue + 315) % 360}, 92%, 66%, 0.38),
-                            hsla(${hue}, 92%, 68%, 0.45)
-                          )
-                        `,
-                        padding: "1px",
-                        WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                        WebkitMaskComposite: "xor",
-                        maskComposite: "exclude",
-                        borderRadius: "0.75rem",
-                      } as React.CSSProperties}
-                    />
+                  {/* Action buttons */}
+                  <div className="flex gap-3">
+                    <div className="relative group flex-1">
+                      {/* Multicolor animated outline (border-only) */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0 rounded-xl opacity-80 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+                        style={{
+                          background: `
+                            conic-gradient(
+                              from ${hue}deg,
+                              hsla(${hue}, 92%, 68%, 0.45),
+                              hsla(${(hue + 90) % 360}, 92%, 64%, 0.30),
+                              hsla(${(hue + 180) % 360}, 92%, 68%, 0.40),
+                              hsla(${(hue + 270) % 360}, 92%, 64%, 0.34),
+                              hsla(${hue}, 92%, 68%, 0.45)
+                            )
+                          `,
+                          padding: "1px",
+                          WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                          WebkitMaskComposite: "xor",
+                          maskComposite: "exclude",
+                          borderRadius: "0.75rem",
+                        } as React.CSSProperties}
+                      />
+                      <Button
+                        onClick={() => handleTestDrive(trajectory)}
+                        variant="secondary"
+                        className="relative w-full rounded-xl bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/15 hover:bg-white/15 dark:hover:bg-white/15 transition"
+                      >
+                        <Play className="h-4 w-4 mr-2" />
+                        Start Internship
+                      </Button>
+                    </div>
                     <Button
-                      onClick={() => handleTestDrive(trajectory)}
-                      variant="secondary"
-                      className="relative w-full rounded-xl bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/15 hover:bg-white/15 dark:hover:bg-white/15 transition"
+                      onClick={() => handleStartSimulation(trajectory)}
+                      variant="outline"
+                      className="shrink-0 rounded-xl border-white/20 hover:bg-white/10"
                     >
-                      <Play className="h-4 w-4 mr-2" />
-                      Test Drive This Job
+                      <Video className="h-4 w-4 mr-2" />
+                      Simulate
                     </Button>
                   </div>
                 </CardContent>
