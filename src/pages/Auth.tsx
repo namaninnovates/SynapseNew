@@ -16,7 +16,7 @@ import {
 
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight, Loader2, Mail, UserX } from "lucide-react";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { CareerAssessmentDialog } from "@/components/CareerAssessmentDialog";
 import { useMutation } from "convex/react";
@@ -35,6 +35,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showAssessment, setShowAssessment] = useState(false);
+  const hasAttemptedAutoLogin = useRef(false);
   
   const saveAssessment = useMutation(api.assessments.saveAssessment);
 
@@ -121,6 +122,13 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated && !hasAttemptedAutoLogin.current) {
+      hasAttemptedAutoLogin.current = true;
+      handleGuestLogin();
+    }
+  }, [authLoading, isAuthenticated]);
 
   return (
     <div className="min-h-screen flex flex-col mt-[100px]">
