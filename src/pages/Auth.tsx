@@ -117,9 +117,19 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       navigate(redirect);
     } catch (error) {
       console.error("Guest login error:", error);
-      console.error("Error details:", JSON.stringify(error, null, 2));
-      setError(`Failed to sign in as guest: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      
+      let errorMessage = "Failed to sign in as guest.";
+      if (error instanceof Error) {
+        if (error.message.includes("fetch") || error.message.includes("network")) {
+          errorMessage = "Cannot reach the server. Please ensure the backend is running.";
+        } else {
+          errorMessage = `Guest login failed: ${error.message}`;
+        }
+      }
+      
+      setError(errorMessage);
       setIsLoading(false);
+      toast.error(errorMessage);
     }
   };
 
